@@ -61,18 +61,6 @@ export default function Home() {
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              📊 Data
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>CSV ↔ XLSX</li>
-              <li>JSON ↔ CSV</li>
-              <li>XLSX → CSV</li>
-              <li>Markdown → CSV</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
               🖼️ Images
             </h2>
             <ul className="text-gray-600 dark:text-gray-300 space-y-2">
