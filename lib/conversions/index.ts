@@ -48,6 +48,16 @@ export async function convertFile(
         return await imageConv.convertImage(inputBuffer, 'png', options);
       case 'webp-to-jpg':
         return await imageConv.convertImage(inputBuffer, 'jpg', options);
+      case 'gif-to-png':
+        return await imageConv.convertImage(inputBuffer, 'png', options);
+      case 'gif-to-jpg':
+        return await imageConv.convertImage(inputBuffer, 'jpg', options);
+      case 'gif-to-webp':
+        return await imageConv.convertImage(inputBuffer, 'webp', options);
+      case 'png-to-gif':
+        return await imageConv.convertImage(inputBuffer, 'gif', options);
+      case 'jpg-to-gif':
+        return await imageConv.convertImage(inputBuffer, 'gif', options);
       case 'image-resize':
         if (!options?.width || !options?.height) {
           throw new Error('Width and height are required for image resize');
@@ -88,6 +98,8 @@ export async function convertFile(
         return await docConv.convertMdToPdf(inputBuffer);
       case 'html-to-pdf':
         return await docConv.convertHtmlToPdf(inputBuffer);
+      case 'md-to-html':
+        return await docConv.convertMdToHtml(inputBuffer);
 
       // Data
       case 'csv-to-xlsx':
@@ -100,6 +112,18 @@ export async function convertFile(
         return await dataConv.convertCsvToJson(inputBuffer);
       case 'md-to-csv':
         return await dataConv.convertMdToCsv(inputBuffer);
+      case 'xml-to-json':
+        return await dataConv.convertXmlToJson(inputBuffer);
+      case 'xml-to-csv':
+        return await dataConv.convertXmlToCsv(inputBuffer);
+      case 'yaml-to-json':
+        return await dataConv.convertYamlToJson(inputBuffer);
+      case 'yaml-to-csv':
+        return await dataConv.convertYamlToCsv(inputBuffer);
+      case 'tsv-to-csv':
+        return await dataConv.convertTsvToCsv(inputBuffer);
+      case 'csv-to-tsv':
+        return await dataConv.convertCsvToTsv(inputBuffer);
 
       default:
         throw new Error(`Unsupported conversion type: ${conversionType}`);

@@ -82,6 +82,7 @@ export function getMimeType(extension: string): string {
     jpg: 'image/jpeg',
     jpeg: 'image/jpeg',
     webp: 'image/webp',
+    gif: 'image/gif',
     mp3: 'audio/mpeg',
     wav: 'audio/wav',
     m4a: 'audio/mp4',
@@ -91,6 +92,10 @@ export function getMimeType(extension: string): string {
     csv: 'text/csv',
     xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     json: 'application/json',
+    xml: 'application/xml',
+    yaml: 'text/yaml',
+    yml: 'text/yaml',
+    tsv: 'text/tab-separated-values',
   };
   return mimeMap[extension] || 'application/octet-stream';
 }

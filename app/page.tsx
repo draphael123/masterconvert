@@ -55,6 +55,7 @@ export default function Home() {
               <li>DOCX → TXT</li>
               <li>TXT/MD → PDF</li>
               <li>HTML → PDF</li>
+              <li>Markdown → HTML</li>
             </ul>
           </div>
 
@@ -78,6 +79,7 @@ export default function Home() {
               <li>PNG ↔ JPG</li>
               <li>PNG/JPG → WebP</li>
               <li>WebP → PNG/JPG</li>
+              <li>GIF ↔ PNG/JPG/WebP</li>
               <li>Resize & Compress</li>
             </ul>
           </div>

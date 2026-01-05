@@ -118,3 +118,119 @@ export async function convertPdfToDocx(pdfBuffer: Buffer): Promise<Buffer> {
   );
 }
 
+export async function convertMdToHtml(mdBuffer: Buffer): Promise<Buffer> {
+  const mdText = mdBuffer.toString('utf-8');
+  
+  // Enhanced markdown to HTML conversion
+  let html = mdText
+    // Headers
+    .replace(/^###### (.*$)/gim, '<h6>$1</h6>')
+    .replace(/^##### (.*$)/gim, '<h5>$1</h5>')
+    .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    // Bold and italic
+    .replace(/\*\*\*(.*?)\*\*\*/gim, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    // Code blocks
+    .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
+    .replace(/`(.*?)`/gim, '<code>$1</code>')
+    // Links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
+    // Images
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/gim, '<img src="$2" alt="$1" />')
+    // Line breaks
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  
+  // Wrap in paragraphs
+  html = html.split('</p><p>').map(para => {
+    if (!para.startsWith('<h') && !para.startsWith('<pre') && !para.startsWith('<ul') && !para.startsWith('<ol')) {
+      return `<p>${para}</p>`;
+    }
+    return para;
+  }).join('');
+  
+  // Lists
+  const lines = html.split('<br>');
+  let inList = false;
+  let listType = '';
+  const processedLines: string[] = [];
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.match(/^[-*+]\s/)) {
+      if (!inList || listType !== 'ul') {
+        if (inList) processedLines.push(`</${listType}>`);
+        processedLines.push('<ul>');
+        inList = true;
+        listType = 'ul';
+      }
+      processedLines.push(`<li>${trimmed.replace(/^[-*+]\s+/, '')}</li>`);
+    } else if (trimmed.match(/^\d+\.\s/)) {
+      if (!inList || listType !== 'ol') {
+        if (inList) processedLines.push(`</${listType}>`);
+        processedLines.push('<ol>');
+        inList = true;
+        listType = 'ol';
+      }
+      processedLines.push(`<li>${trimmed.replace(/^\d+\.\s+/, '')}</li>`);
+    } else {
+      if (inList) {
+        processedLines.push(`</${listType}>`);
+        inList = false;
+      }
+      processedLines.push(line);
+    }
+  }
+  if (inList) processedLines.push(`</${listType}>`);
+  
+  html = processedLines.join('\n');
+  
+  const fullHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Converted Markdown</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+          }
+          h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
+          h2 { border-bottom: 1px solid #eee; padding-bottom: 8px; }
+          code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+          }
+          pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+          }
+          pre code { background: none; padding: 0; }
+          a { color: #0066cc; text-decoration: none; }
+          a:hover { text-decoration: underline; }
+          img { max-width: 100%; height: auto; }
+        </style>
+      </head>
+      <body>
+        ${html}
+      </body>
+    </html>
+  `;
+  
+  return Buffer.from(fullHtml, 'utf-8');
+}
+

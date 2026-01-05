@@ -3,7 +3,7 @@ import { AdvancedOptions } from '../../lib/types';
 
 export async function convertImage(
   inputBuffer: Buffer,
-  outputFormat: 'png' | 'jpg' | 'webp',
+  outputFormat: 'png' | 'jpg' | 'webp' | 'gif',
   options?: AdvancedOptions
 ): Promise<Buffer> {
   let pipeline = sharp(inputBuffer);
@@ -28,6 +28,8 @@ export async function convertImage(
       return await pipeline
         .webp({ quality: options?.quality || 90 })
         .toBuffer();
+    case 'gif':
+      return await pipeline.gif().toBuffer();
     default:
       throw new Error(`Unsupported output format: ${outputFormat}`);
   }
