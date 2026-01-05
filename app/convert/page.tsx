@@ -1,0 +1,405 @@
+'use client';
+
+import { useState, useCallback, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import FileCard from '@/components/FileCard';
+import ProgressCard from '@/components/ProgressCard';
+import { FileInfo, ConversionType, JobStatus, AdvancedOptions, ConversionHistoryItem } from '@/lib/types';
+import { validateFile } from '@/lib/validation';
+
+const MAX_FILE_SIZE_MB = 200;
+
+export default function ConvertPage() {
+  const [files, setFiles] = useState<FileInfo[]>([]);
+  const [fileObjects, setFileObjects] = useState<Map<string, File>>(new Map());
+  const [jobs, setJobs] = useState<Map<string, JobStatus>>(new Map());
+  const [history, setHistory] = useState<ConversionHistoryItem[]>([]);
+
+  // Load history from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('fileforge-history');
+    if (stored) {
+      try {
+        setHistory(JSON.parse(stored));
+      } catch (e) {
+        console.error('Failed to load history:', e);
+      }
+    }
+  }, []);
+
+  // Save history to localStorage
+  const saveToHistory = (item: ConversionHistoryItem) => {
+    const newHistory = [item, ...history].slice(0, 50); // Keep last 50
+    setHistory(newHistory);
+    localStorage.setItem('fileforge-history', JSON.stringify(newHistory));
+  };
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    for (const file of acceptedFiles) {
+      const validation = await validateFile(file, MAX_FILE_SIZE_MB);
+      if (!validation.valid) {
+        toast.error(`${file.name}: ${validation.error}`);
+        continue;
+      }
+
+      const fileId = `file-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      const fileInfo: FileInfo = {
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      };
+
+      setFiles((prev) => [...prev, fileInfo]);
+      setFileObjects((prev) => {
+        const newMap = new Map(prev);
+        newMap.set(fileId, file);
+        return newMap;
+      });
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    maxSize: MAX_FILE_SIZE_MB * 1024 * 1024,
+  });
+
+  const removeFile = (id: string) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id));
+    setFileObjects((prev) => {
+      const newMap = new Map(prev);
+      newMap.delete(id);
+      return newMap;
+    });
+  };
+
+  const updatePreset = (id: string, preset: ConversionType) => {
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, preset } : f))
+    );
+  };
+
+  const updateAdvancedOptions = (id: string, options: AdvancedOptions) => {
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, advancedOptions: options } : f))
+    );
+  };
+
+  const startConversion = async () => {
+    const filesToConvert = files.filter((f) => f.preset);
+    
+    if (filesToConvert.length === 0) {
+      toast.error('Please select conversion formats for at least one file');
+      return;
+    }
+
+    for (const file of filesToConvert) {
+      try {
+        // Upload file
+        const fileObject = fileObjects.get(file.id);
+        if (!fileObject) {
+          toast.error(`File ${file.name} not found`);
+          continue;
+        }
+
+        const formData = new FormData();
+        formData.append('file', fileObject);
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          const error = await uploadResponse.json();
+          toast.error(`Upload failed for ${file.name}: ${error.error}`);
+          continue;
+        }
+
+        const uploadData = await uploadResponse.json();
+
+        // Start conversion
+        const convertResponse = await fetch('/api/convert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileId: uploadData.fileId,
+            fileName: file.name,
+            conversionType: file.preset,
+            advancedOptions: file.advancedOptions,
+          }),
+        });
+
+        if (!convertResponse.ok) {
+          const error = await convertResponse.json();
+          toast.error(`Conversion failed for ${file.name}: ${error.error || error.message}`);
+          continue;
+        }
+
+        const { jobId } = await convertResponse.json();
+
+        // Initialize job status
+        setJobs((prev) => {
+          const newJobs = new Map(prev);
+          newJobs.set(jobId, {
+            jobId,
+            status: 'pending',
+            progress: 0,
+            message: 'Starting conversion...',
+          });
+          return newJobs;
+        });
+
+        // Store file name for job
+        setJobs((prev) => {
+          const newJobs = new Map(prev);
+          const job = newJobs.get(jobId);
+          if (job) {
+            (job as any).fileName = file.name;
+          }
+          return newJobs;
+        });
+
+        // Poll for status
+        pollJobStatus(jobId, file.name, file.preset!);
+      } catch (error: any) {
+        toast.error(`Error converting ${file.name}: ${error.message}`);
+      }
+    }
+  };
+
+  const pollJobStatus = async (
+    jobId: string,
+    fileName: string,
+    conversionType: ConversionType
+  ) => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/status?jobId=${jobId}`);
+        if (!response.ok) {
+          clearInterval(interval);
+          return;
+        }
+
+        const status: JobStatus = await response.json();
+        setJobs((prev) => {
+          const newJobs = new Map(prev);
+          newJobs.set(jobId, status);
+          return newJobs;
+        });
+
+        if (status.status === 'completed') {
+          clearInterval(interval);
+          toast.success(`Conversion complete: ${fileName}`);
+          
+          // Save to history
+          saveToHistory({
+            id: jobId,
+            fileName,
+            fromType: conversionType.split('-to-')[0],
+            toType: conversionType.split('-to-')[1],
+            timestamp: Date.now(),
+            status: 'success',
+          });
+        } else if (status.status === 'failed') {
+          clearInterval(interval);
+          toast.error(`Conversion failed: ${fileName}`);
+          
+          // Save to history
+          saveToHistory({
+            id: jobId,
+            fileName,
+            fromType: conversionType.split('-to-')[0],
+            toType: conversionType.split('-to-')[1],
+            timestamp: Date.now(),
+            status: 'failed',
+          });
+        }
+      } catch (error) {
+        console.error('Error polling status:', error);
+        clearInterval(interval);
+      }
+    }, 1000); // Poll every second
+  };
+
+  const downloadFile = (jobId: string, fileIndex: number = 0) => {
+    window.open(`/api/download?jobId=${jobId}&fileIndex=${fileIndex}`, '_blank');
+  };
+
+  const downloadZip = (jobId: string) => {
+    window.open(`/api/download-zip?jobId=${jobId}`, '_blank');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <nav className="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white">
+              FileForge
+            </Link>
+            <div className="flex gap-4">
+              <Link
+                href="/convert"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-semibold"
+              >
+                Convert
+              </Link>
+              <Link
+                href="/privacy"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              >
+                Privacy
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
+          Convert Files
+        </h1>
+
+        {/* Upload Area */}
+        <div
+          {...getRootProps()}
+          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
+            isDragActive
+              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
+              : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'
+          }`}
+        >
+          <input {...getInputProps()} />
+          <div className="space-y-4">
+            <div className="text-6xl">📁</div>
+            <div>
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                {isDragActive ? 'Drop files here' : 'Drag & drop files here'}
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                or click to select files (max {MAX_FILE_SIZE_MB}MB per file)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* File Cards */}
+        {files.length > 0 && (
+          <div className="mt-8 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                Files ({files.length})
+              </h2>
+              <button
+                onClick={startConversion}
+                disabled={files.filter((f) => f.preset).length === 0}
+                className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                Start Conversion
+              </button>
+            </div>
+
+            {files.map((file) => (
+              <FileCard
+                key={file.id}
+                file={file}
+                onRemove={removeFile}
+                onPresetChange={updatePreset}
+                onAdvancedOptionsChange={updateAdvancedOptions}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Progress Cards */}
+        {jobs.size > 0 && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Conversions
+            </h2>
+            <div className="space-y-4">
+              {Array.from(jobs.values()).map((job) => {
+                const fileName = (job as any).fileName || 'File';
+                return (
+                  <ProgressCard
+                    key={job.jobId}
+                    job={job}
+                    fileName={fileName}
+                    onDownload={downloadFile}
+                    onDownloadZip={downloadZip}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* History */}
+        {history.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Recent Conversions
+            </h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-900">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      File
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Conversion
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Time
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  {history.slice(0, 10).map((item) => (
+                    <tr key={item.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                        {item.fileName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        {item.fromType} → {item.toType}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 py-1 text-xs rounded ${
+                            item.status === 'success'
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        {new Date(item.timestamp).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Privacy Notice */}
+        <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            🔒 <strong>Privacy:</strong> Your files are processed securely and automatically
+            deleted after 15 minutes. We do not store your files permanently.
+          </p>
+        </div>
+      </main>
+    </div>
+  );
+}
+
