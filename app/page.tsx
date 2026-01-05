@@ -121,7 +121,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-16">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
             How It Works
           </h2>
@@ -132,6 +132,88 @@ export default function Home() {
             <li>Download your converted files individually or as a ZIP</li>
             <li>Files are automatically deleted after 15 minutes</li>
           </ol>
+        </div>
+
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
+            Why Choose FileForge?
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">🔒</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                Privacy First
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Your files are processed securely and automatically deleted after 15 minutes. 
+                We never store your data permanently or share it with third parties.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">⚡</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                Fast & Reliable
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Convert files in seconds with our optimized processing pipeline. 
+                Real-time progress tracking keeps you informed every step of the way.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">🌐</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                No Installation Required
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Works entirely in your browser. No software downloads, no plugins, 
+                no hassle. Just upload, convert, and download.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">📦</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                Multiple File Support
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Convert multiple files at once and download them individually or 
+                as a convenient ZIP archive. Batch processing made simple.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">🎯</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                40+ Conversion Types
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Support for documents, images, audio, video, and data formats. 
+                From PDFs to spreadsheets, we've got you covered.
+              </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div className="text-4xl mb-4">💯</div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                Free to Use
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                No credit card required, no hidden fees, no subscriptions. 
+                Convert your files completely free with generous file size limits.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <Link
+            href="/convert"
+            className="inline-block px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-lg"
+          >
+            Start Converting Now
+          </Link>
         </div>
       </main>
     </div>
