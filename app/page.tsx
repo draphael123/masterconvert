@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -43,6 +44,26 @@ export default function Home() {
           >
             Start Converting
           </Link>
+        </div>
+
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">40+</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Conversion Types</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">100%</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Free to Use</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">200MB</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Max File Size</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">15min</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Auto Delete</div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
@@ -208,7 +229,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center mb-16">
           <Link
             href="/convert"
             className="inline-block px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-lg"
@@ -216,7 +237,79 @@ export default function Home() {
             Start Converting Now
           </Link>
         </div>
+
+        {/* FAQ Section */}
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-6 max-w-3xl mx-auto">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                Is FileForge free to use?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Yes! FileForge is completely free to use. No registration, no credit card, 
+                no hidden fees. Just upload, convert, and download.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                How secure is my data?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Your files are processed securely and automatically deleted after 15 minutes. 
+                We never store your files permanently or share them with third parties. 
+                All processing happens in isolated environments.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                What file size limits apply?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                The maximum file size is 200MB per file. This limit helps ensure fast 
+                processing and server stability. For larger files, consider splitting 
+                them into smaller chunks.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                Can I convert multiple files at once?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Absolutely! You can upload multiple files and convert them all at once. 
+                Download them individually or as a convenient ZIP archive.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                Which conversions work on Vercel/serverless?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Image conversions, data format conversions (CSV, JSON, XLSX, etc.), and 
+                document conversions like TXT/MD/HTML to PDF work perfectly. Audio/video 
+                conversions require FFmpeg which isn't available in serverless environments.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                How long are files stored?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Files are automatically deleted after 15 minutes, or immediately after you 
+                download the converted files. We don't store your files permanently.
+              </p>
+            </div>
+          </div>
+        </div>
       </main>
+      <Footer />
     </div>
   );
 }

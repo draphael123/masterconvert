@@ -6,6 +6,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import FileCard from '@/components/FileCard';
 import ProgressCard from '@/components/ProgressCard';
+import Footer from '@/components/Footer';
 import { FileInfo, ConversionType, JobStatus, AdvancedOptions, ConversionHistoryItem } from '@/lib/types';
 import { validateFile } from '@/lib/validation';
 
@@ -262,6 +263,36 @@ export default function ConvertPage() {
           Convert Files
         </h1>
 
+        {/* Quick Convert Section */}
+        <div className="mb-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            Quick Convert
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Popular conversions at a glance:
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              PNG → JPG
+            </span>
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              PDF → TXT
+            </span>
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              CSV → XLSX
+            </span>
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              JSON → CSV
+            </span>
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              MD → PDF
+            </span>
+            <span className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded text-sm text-gray-700 dark:text-gray-300 text-center">
+              HTML → PDF
+            </span>
+          </div>
+        </div>
+
         {/* Upload Area */}
         <div
           {...getRootProps()}
@@ -292,13 +323,26 @@ export default function ConvertPage() {
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
                 Files ({files.length})
               </h2>
-              <button
-                onClick={startConversion}
-                disabled={files.filter((f) => f.preset).length === 0}
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                Start Conversion
-              </button>
+              <div className="flex gap-3">
+                {files.length > 0 && (
+                  <button
+                    onClick={() => {
+                      setFiles([]);
+                      setFileObjects(new Map());
+                    }}
+                    className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                  >
+                    Clear All
+                  </button>
+                )}
+                <button
+                  onClick={startConversion}
+                  disabled={files.filter((f) => f.preset).length === 0}
+                  className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  Start Conversion
+                </button>
+              </div>
             </div>
 
             {files.map((file) => (
@@ -399,6 +443,7 @@ export default function ConvertPage() {
           </p>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
