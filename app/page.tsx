@@ -115,6 +115,9 @@ export default function Home() {
               <li>JSON ↔ CSV</li>
               <li>XLSX → CSV</li>
               <li>Markdown → CSV</li>
+              <li>XML → JSON/CSV</li>
+              <li>YAML → JSON/CSV</li>
+              <li>TSV ↔ CSV</li>
             </ul>
           </div>
 
