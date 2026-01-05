@@ -98,6 +98,8 @@ export async function convertFile(
         return await dataConv.convertJsonToCsv(inputBuffer);
       case 'csv-to-json':
         return await dataConv.convertCsvToJson(inputBuffer);
+      case 'md-to-csv':
+        return await dataConv.convertMdToCsv(inputBuffer);
 
       default:
         throw new Error(`Unsupported conversion type: ${conversionType}`);

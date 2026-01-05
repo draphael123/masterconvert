@@ -170,6 +170,7 @@ function getOutputExtension(conversionType: ConversionType): string {
     'xlsx-to-csv': 'csv',
     'json-to-csv': 'csv',
     'csv-to-json': 'json',
+    'md-to-csv': 'csv',
   };
   return extensionMap[conversionType] || 'bin';
 }

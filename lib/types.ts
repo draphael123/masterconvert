@@ -21,6 +21,7 @@ export type ConversionType =
   | 'xlsx-to-csv'
   | 'json-to-csv'
   | 'csv-to-json'
+  | 'md-to-csv'
   | 'image-resize';
 
 export interface ConversionPreset {

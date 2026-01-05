@@ -71,3 +71,114 @@ export async function convertCsvToJson(csvBuffer: Buffer): Promise<Buffer> {
   return Buffer.from(json, 'utf-8');
 }
 
+export async function convertMdToCsv(mdBuffer: Buffer): Promise<Buffer> {
+  const mdText = mdBuffer.toString('utf-8');
+  const lines = mdText.split('\n');
+  
+  // First, try to extract markdown tables
+  const tableRegex = /^\|(.+)\|$/;
+  const tableRows: string[][] = [];
+  let inTable = false;
+  let headers: string[] = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    // Check if this is a table row
+    if (tableRegex.test(line)) {
+      // Extract cells, removing leading/trailing pipes and whitespace
+      const cells = line
+        .split('|')
+        .map(cell => cell.trim())
+        .filter(cell => cell.length > 0);
+      
+      // Check if this is a separator row (e.g., |---|---|)
+      const isSeparator = cells.every(cell => /^:?-+:?$/.test(cell));
+      
+      if (isSeparator) {
+        // Skip separator row
+        continue;
+      }
+      
+      if (!inTable) {
+        // First row is headers
+        headers = cells;
+        inTable = true;
+      } else {
+        // Data row
+        if (cells.length === headers.length) {
+          tableRows.push(cells);
+        }
+      }
+    } else {
+      // If we were in a table and now we're not, finalize the table
+      if (inTable && tableRows.length > 0) {
+        break; // Use the first table found
+      }
+      inTable = false;
+    }
+  }
+  
+  // If we found a table, convert it to CSV
+  if (headers.length > 0 && tableRows.length > 0) {
+    const csvData = [headers, ...tableRows];
+    const csv = Papa.unparse(csvData);
+    return Buffer.from(csv, 'utf-8');
+  }
+  
+  // If no table found, convert markdown structure to CSV
+  // Extract headers (lines starting with #)
+  const csvRows: string[][] = [];
+  let currentRow: string[] = [];
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    
+    // Headers (H1, H2, etc.)
+    if (trimmed.startsWith('#')) {
+      const level = trimmed.match(/^#+/)?.[0].length || 0;
+      const text = trimmed.replace(/^#+\s*/, '').trim();
+      if (text) {
+        csvRows.push([`H${level}`, text]);
+      }
+    }
+    // Lists
+    else if (trimmed.match(/^[-*+]\s/)) {
+      const text = trimmed.replace(/^[-*+]\s+/, '').trim();
+      if (text) {
+        csvRows.push(['List Item', text]);
+      }
+    }
+    // Numbered lists
+    else if (trimmed.match(/^\d+\.\s/)) {
+      const text = trimmed.replace(/^\d+\.\s+/, '').trim();
+      if (text) {
+        csvRows.push(['Numbered Item', text]);
+      }
+    }
+    // Regular text (non-empty lines)
+    else if (trimmed.length > 0 && !trimmed.match(/^[-=*_]+$/)) {
+      // Skip horizontal rules and separators
+      csvRows.push(['Text', trimmed]);
+    }
+  }
+  
+  // If we have structured data, use it
+  if (csvRows.length > 0) {
+    const csv = Papa.unparse([['Type', 'Content'], ...csvRows]);
+    return Buffer.from(csv, 'utf-8');
+  }
+  
+  // Fallback: convert each non-empty line to a CSV row
+  const nonEmptyLines = lines
+    .map(line => line.trim())
+    .filter(line => line.length > 0 && !line.match(/^[-=*_]+$/));
+  
+  if (nonEmptyLines.length > 0) {
+    const csv = Papa.unparse([['Content'], ...nonEmptyLines.map(line => [line])]);
+    return Buffer.from(csv, 'utf-8');
+  }
+  
+  throw new Error('Markdown file is empty or contains no convertible content');
+}
+

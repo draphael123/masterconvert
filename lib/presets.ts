@@ -168,6 +168,13 @@ export const CONVERSION_PRESETS: ConversionPreset[] = [
     to: 'json',
     category: 'data',
   },
+  {
+    id: 'md-to-csv',
+    label: 'Markdown to CSV',
+    from: ['md', 'markdown'],
+    to: 'csv',
+    category: 'data',
+  },
 ];
 
 export function getPresetForFile(filename: string, extension: string): ConversionPreset[] {
