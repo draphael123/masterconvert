@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
+import yaml from 'js-yaml';
 import { AdvancedOptions } from '../../lib/types';
 
 export async function convertCsvToXlsx(csvBuffer: Buffer): Promise<Buffer> {
@@ -392,5 +393,83 @@ export async function convertCsvToTsv(csvBuffer: Buffer): Promise<Buffer> {
   );
   
   return Buffer.from(tsvLines.join('\n'), 'utf-8');
+}
+
+export async function convertJsonToXlsx(jsonBuffer: Buffer): Promise<Buffer> {
+  const jsonText = jsonBuffer.toString('utf-8');
+  let data: any;
+  
+  try {
+    data = JSON.parse(jsonText);
+  } catch (error) {
+    throw new Error('Invalid JSON format');
+  }
+  
+  // Handle array of objects
+  if (Array.isArray(data)) {
+    if (data.length === 0) {
+      throw new Error('JSON array is empty');
+    }
+    
+    // Check if it's an array of objects (tabular)
+    if (typeof data[0] === 'object' && data[0] !== null && !Array.isArray(data[0])) {
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+      
+      return Buffer.from(XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' }));
+    } else {
+      throw new Error('JSON must be an array of objects for XLSX conversion');
+    }
+  }
+  
+  // Handle single object
+  if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet([data]);
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    
+    return Buffer.from(XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' }));
+  }
+  
+  throw new Error('JSON must be an object or array of objects for XLSX conversion');
+}
+
+export async function convertXlsxToJson(
+  xlsxBuffer: Buffer,
+  options?: AdvancedOptions
+): Promise<Buffer> {
+  const workbook = XLSX.read(xlsxBuffer, { type: 'buffer' });
+  const sheetName = options?.sheetName || workbook.SheetNames[0];
+  const worksheet = workbook.Sheets[sheetName];
+  
+  // Convert sheet to JSON
+  const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: null });
+  const json = JSON.stringify(jsonData, null, 2);
+  
+  return Buffer.from(json, 'utf-8');
+}
+
+export async function convertJsonToYaml(jsonBuffer: Buffer): Promise<Buffer> {
+  const jsonText = jsonBuffer.toString('utf-8');
+  let data: any;
+  
+  try {
+    data = JSON.parse(jsonText);
+  } catch (error) {
+    throw new Error('Invalid JSON format');
+  }
+  
+  try {
+    const yamlText = yaml.dump(data, {
+      indent: 2,
+      lineWidth: -1,
+      noRefs: true,
+    });
+    
+    return Buffer.from(yamlText, 'utf-8');
+  } catch (error: any) {
+    throw new Error(`JSON to YAML conversion failed: ${error.message}`);
+  }
 }
 

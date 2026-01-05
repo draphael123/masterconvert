@@ -100,6 +100,12 @@ export async function convertFile(
         return await docConv.convertHtmlToPdf(inputBuffer);
       case 'md-to-html':
         return await docConv.convertMdToHtml(inputBuffer);
+      case 'html-to-md':
+        return await docConv.convertHtmlToMd(inputBuffer);
+      case 'pdf-to-txt':
+        return await docConv.convertPdfToTxt(inputBuffer);
+      case 'txt-to-docx':
+        return await docConv.convertTxtToDocx(inputBuffer);
 
       // Data
       case 'csv-to-xlsx':
@@ -124,6 +130,12 @@ export async function convertFile(
         return await dataConv.convertTsvToCsv(inputBuffer);
       case 'csv-to-tsv':
         return await dataConv.convertCsvToTsv(inputBuffer);
+      case 'json-to-xlsx':
+        return await dataConv.convertJsonToXlsx(inputBuffer);
+      case 'xlsx-to-json':
+        return await dataConv.convertXlsxToJson(inputBuffer, options);
+      case 'json-to-yaml':
+        return await dataConv.convertJsonToYaml(inputBuffer);
 
       default:
         throw new Error(`Unsupported conversion type: ${conversionType}`);

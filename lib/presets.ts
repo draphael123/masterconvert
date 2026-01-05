@@ -51,6 +51,27 @@ export const CONVERSION_PRESETS: ConversionPreset[] = [
     to: 'html',
     category: 'document',
   },
+  {
+    id: 'html-to-md',
+    label: 'HTML to Markdown',
+    from: ['html', 'htm'],
+    to: 'md',
+    category: 'document',
+  },
+  {
+    id: 'pdf-to-txt',
+    label: 'PDF to TXT',
+    from: ['pdf'],
+    to: 'txt',
+    category: 'document',
+  },
+  {
+    id: 'txt-to-docx',
+    label: 'TXT to DOCX',
+    from: ['txt'],
+    to: 'docx',
+    category: 'document',
+  },
   // Images
   {
     id: 'png-to-jpg',
@@ -257,6 +278,13 @@ export const CONVERSION_PRESETS: ConversionPreset[] = [
     label: 'CSV to TSV',
     from: ['csv'],
     to: 'tsv',
+    category: 'data',
+  },
+  {
+    id: 'json-to-yaml',
+    label: 'JSON to YAML',
+    from: ['json'],
+    to: 'yaml',
     category: 'data',
   },
 ];

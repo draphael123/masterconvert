@@ -1,5 +1,8 @@
 import { chromium } from 'playwright';
 import mammoth from 'mammoth';
+import pdfParse from 'pdf-parse';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
+import TurndownService from 'turndown';
 import { readFile, writeFile, unlink } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -232,5 +235,59 @@ export async function convertMdToHtml(mdBuffer: Buffer): Promise<Buffer> {
   `;
   
   return Buffer.from(fullHtml, 'utf-8');
+}
+
+export async function convertPdfToTxt(pdfBuffer: Buffer): Promise<Buffer> {
+  try {
+    const data = await pdfParse(pdfBuffer);
+    const text = data.text || '';
+    return Buffer.from(text, 'utf-8');
+  } catch (error: any) {
+    throw new Error(`PDF to TXT conversion failed: ${error.message}`);
+  }
+}
+
+export async function convertTxtToDocx(txtBuffer: Buffer): Promise<Buffer> {
+  try {
+    const text = txtBuffer.toString('utf-8');
+    const lines = text.split('\n').filter(line => line.trim().length > 0);
+    
+    const paragraphs = lines.map(line => 
+      new Paragraph({
+        children: [new TextRun(line.trim())],
+      })
+    );
+    
+    const doc = new Document({
+      sections: [{
+        properties: {},
+        children: paragraphs.length > 0 ? paragraphs : [
+          new Paragraph({
+            children: [new TextRun('')],
+          })
+        ],
+      }],
+    });
+    
+    const buffer = await Packer.toBuffer(doc);
+    return Buffer.from(buffer);
+  } catch (error: any) {
+    throw new Error(`TXT to DOCX conversion failed: ${error.message}`);
+  }
+}
+
+export async function convertHtmlToMd(htmlBuffer: Buffer): Promise<Buffer> {
+  try {
+    const html = htmlBuffer.toString('utf-8');
+    const turndownService = new TurndownService({
+      headingStyle: 'atx',
+      codeBlockStyle: 'fenced',
+    });
+    
+    const markdown = turndownService.turndown(html);
+    return Buffer.from(markdown, 'utf-8');
+  } catch (error: any) {
+    throw new Error(`HTML to Markdown conversion failed: ${error.message}`);
+  }
 }
 

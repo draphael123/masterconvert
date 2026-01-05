@@ -49,7 +49,7 @@ export default function Home() {
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">40+</div>
+            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">50+</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Conversion Types</div>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
@@ -73,10 +73,12 @@ export default function Home() {
             </h2>
             <ul className="text-gray-600 dark:text-gray-300 space-y-2">
               <li>DOCX ↔ PDF</li>
-              <li>DOCX → TXT</li>
+              <li>DOCX ↔ TXT</li>
               <li>TXT → PDF</li>
+              <li>TXT → DOCX</li>
+              <li>PDF → TXT</li>
               <li>Markdown → PDF</li>
-              <li>Markdown → HTML</li>
+              <li>Markdown ↔ HTML</li>
               <li>HTML → PDF</li>
             </ul>
           </div>
@@ -123,7 +125,9 @@ export default function Home() {
             <ul className="text-gray-600 dark:text-gray-300 space-y-2">
               <li>CSV ↔ XLSX</li>
               <li>JSON ↔ CSV</li>
-              <li>XLSX → CSV</li>
+              <li>JSON ↔ XLSX</li>
+              <li>JSON ↔ YAML</li>
+              <li>XLSX → CSV/JSON</li>
               <li>Markdown → CSV</li>
               <li>XML → JSON/CSV</li>
               <li>YAML → JSON/CSV</li>
@@ -208,7 +212,7 @@ export default function Home() {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
               <div className="text-4xl mb-4">🎯</div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                40+ Conversion Types
+                50+ Conversion Types
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Support for documents, images, audio, video, and data formats. 
