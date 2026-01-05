@@ -53,9 +53,10 @@ export default function Home() {
             <ul className="text-gray-600 dark:text-gray-300 space-y-2">
               <li>DOCX ↔ PDF</li>
               <li>DOCX → TXT</li>
-              <li>TXT/MD → PDF</li>
-              <li>HTML → PDF</li>
+              <li>TXT → PDF</li>
+              <li>Markdown → PDF</li>
               <li>Markdown → HTML</li>
+              <li>HTML → PDF</li>
             </ul>
           </div>
 
