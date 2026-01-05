@@ -216,7 +216,7 @@ export default function Home() {
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Support for documents, images, audio, video, and data formats. 
-                From PDFs to spreadsheets, we've got you covered.
+                From PDFs to spreadsheets, we&apos;ve got you covered.
               </p>
             </div>
 
@@ -297,7 +297,7 @@ export default function Home() {
               <p className="text-gray-600 dark:text-gray-300">
                 Image conversions, data format conversions (CSV, JSON, XLSX, etc.), and 
                 document conversions like TXT/MD/HTML to PDF work perfectly. Audio/video 
-                conversions require FFmpeg which isn't available in serverless environments.
+                conversions require FFmpeg which isn&apos;t available in serverless environments.
               </p>
             </div>
             
@@ -307,7 +307,7 @@ export default function Home() {
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 Files are automatically deleted after 15 minutes, or immediately after you 
-                download the converted files. We don't store your files permanently.
+                download the converted files. We don&apos;t store your files permanently.
               </p>
             </div>
           </div>
