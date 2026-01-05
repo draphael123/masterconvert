@@ -47,7 +47,7 @@ export default function Home() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16" key="stats">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
             <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">50+</div>
             <div className="text-sm text-gray-600 dark:text-gray-400">Conversion Types</div>
