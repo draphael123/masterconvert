@@ -48,7 +48,11 @@ export async function GET(request: NextRequest) {
       }, 1000);
     }
 
-    return new NextResponse(zipBuffer, {
+    // Convert Node.js Buffer to Uint8Array for NextResponse
+    // NextResponse accepts: string | ArrayBuffer | Uint8Array | Blob | ReadableStream
+    const uint8Array = new Uint8Array(zipBuffer);
+
+    return new NextResponse(uint8Array, {
       headers: {
         'Content-Type': 'application/zip',
         'Content-Disposition': 'attachment; filename="converted-files.zip"',

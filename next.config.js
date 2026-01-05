@@ -5,11 +5,8 @@ const nextConfig = {
       bodySizeLimit: '200mb',
     },
   },
-  api: {
-    bodyParser: {
-      sizeLimit: '200mb',
-    },
-  },
+  // Note: The 'api' key is for Pages Router only, not App Router
+  // For App Router, body size limits are handled via serverActions config above
 };
 
 module.exports = nextConfig;

@@ -53,7 +53,11 @@ export async function GET(request: NextRequest) {
       unlink(filePath).catch(() => {});
     }, 1000);
 
-    return new NextResponse(fileBuffer, {
+    // Convert Node.js Buffer to Uint8Array for NextResponse
+    // NextResponse accepts: string | ArrayBuffer | Uint8Array | Blob | ReadableStream
+    const uint8Array = new Uint8Array(fileBuffer);
+
+    return new NextResponse(uint8Array, {
       headers: {
         'Content-Type': mimeType,
         'Content-Disposition': `attachment; filename="converted.${extension}"`,
