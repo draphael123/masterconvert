@@ -72,8 +72,7 @@ export default function Home() {
               📄 Documents
             </h2>
             <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>DOCX ↔ PDF</li>
-              <li>DOCX ↔ TXT</li>
+              <li>DOCX → TXT</li>
               <li>TXT → PDF</li>
               <li>TXT → DOCX</li>
               <li>PDF → TXT</li>

@@ -2,20 +2,9 @@ import { ConversionPreset, ConversionType } from './types';
 
 export const CONVERSION_PRESETS: ConversionPreset[] = [
   // Documents
-  {
-    id: 'docx-to-pdf',
-    label: 'DOCX to PDF',
-    from: ['docx'],
-    to: 'pdf',
-    category: 'document',
-  },
-  {
-    id: 'pdf-to-docx',
-    label: 'PDF to DOCX',
-    from: ['pdf'],
-    to: 'docx',
-    category: 'document',
-  },
+  // Note: docx-to-pdf and pdf-to-docx are not available in serverless environments
+  // They require LibreOffice or specialized tools that aren't available on Vercel
+  // These conversions have been removed from the presets list
   {
     id: 'docx-to-txt',
     label: 'DOCX to TXT',
