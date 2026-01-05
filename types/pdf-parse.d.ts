@@ -30,6 +30,7 @@ declare module 'pdf-parse' {
   }
 
   function pdfParse(dataBuffer: Buffer, options?: any): Promise<PDFData>;
-  export = pdfParse;
+  
+  export default pdfParse;
 }
 
