@@ -27,25 +27,22 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-white font-semibold mb-4">Other Tools</h4>
+            <h4 className="text-white font-semibold mb-4">Image Tools</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/convert" className="hover:text-white transition-colors">Convert Files</Link></li>
+              <li><Link href="/heic" className="hover:text-white transition-colors">HEIC to JPG/PNG</Link></li>
               <li><Link href="/resize" className="hover:text-white transition-colors">Resize Images</Link></li>
               <li><Link href="/qr-code" className="hover:text-white transition-colors">QR Generator</Link></li>
-              <li><Link href="/tools/json-formatter" className="hover:text-white transition-colors">JSON Formatter</Link></li>
-              <li><Link href="/tools/word-counter" className="hover:text-white transition-colors">Word Counter</Link></li>
-              <li><Link href="/tools/base64" className="hover:text-white transition-colors">Base64</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-white font-semibold mb-4">Formats</h4>
+            <h4 className="text-white font-semibold mb-4">Dev Tools</h4>
             <ul className="space-y-2 text-sm">
-              <li>Documents (PDF, DOCX, TXT)</li>
-              <li>Images (PNG, JPG, WebP)</li>
-              <li>Data (CSV, XLSX, JSON)</li>
-              <li>Markdown & HTML</li>
-              <li>XML & YAML</li>
+              <li><Link href="/tools/json-formatter" className="hover:text-white transition-colors">JSON Formatter</Link></li>
+              <li><Link href="/tools/base64" className="hover:text-white transition-colors">Base64</Link></li>
+              <li><Link href="/tools/hash" className="hover:text-white transition-colors">Hash Generator</Link></li>
+              <li><Link href="/tools/regex" className="hover:text-white transition-colors">Regex Tester</Link></li>
             </ul>
           </div>
           

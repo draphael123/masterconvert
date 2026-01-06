@@ -58,6 +58,24 @@ export async function convertFile(
         return await imageConv.convertImage(inputBuffer, 'gif', options);
       case 'jpg-to-gif':
         return await imageConv.convertImage(inputBuffer, 'gif', options);
+      
+      // HEIC Conversions
+      case 'heic-to-jpg':
+        return await imageConv.convertHeicToJpg(inputBuffer, options?.quality);
+      case 'heic-to-png':
+        return await imageConv.convertHeicToPng(inputBuffer);
+      
+      // SVG Conversions
+      case 'svg-to-png':
+        return await imageConv.convertSvgToPng(inputBuffer, options?.width, options?.height);
+      case 'svg-to-jpg':
+        return await imageConv.convertSvgToJpg(inputBuffer, options?.width, options?.height, options?.quality);
+      
+      // ICO Generation
+      case 'png-to-ico':
+      case 'jpg-to-ico':
+        return await imageConv.convertToIco(inputBuffer);
+
       case 'image-resize':
         if (!options?.width || !options?.height) {
           throw new Error('Width and height are required for image resize');
