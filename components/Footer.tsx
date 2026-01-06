@@ -14,38 +14,27 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-white font-semibold mb-4">Tools</h4>
+            <h4 className="text-white font-semibold mb-4">PDF Tools</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/convert" className="hover:text-white transition-colors">
-                  Convert Files
-                </Link>
-              </li>
-              <li>
-                <Link href="/merge" className="hover:text-white transition-colors">
-                  Merge PDFs
-                </Link>
-              </li>
-              <li>
-                <Link href="/split" className="hover:text-white transition-colors">
-                  Split PDF
-                </Link>
-              </li>
-              <li>
-                <Link href="/compress" className="hover:text-white transition-colors">
-                  Compress Files
-                </Link>
-              </li>
-              <li>
-                <Link href="/watermark" className="hover:text-white transition-colors">
-                  Watermark PDF
-                </Link>
-              </li>
-              <li>
-                <Link href="/protect" className="hover:text-white transition-colors">
-                  Protect PDF
-                </Link>
-              </li>
+              <li><Link href="/merge" className="hover:text-white transition-colors">Merge PDFs</Link></li>
+              <li><Link href="/split" className="hover:text-white transition-colors">Split PDF</Link></li>
+              <li><Link href="/compress" className="hover:text-white transition-colors">Compress</Link></li>
+              <li><Link href="/rotate-pdf" className="hover:text-white transition-colors">Rotate PDF</Link></li>
+              <li><Link href="/watermark" className="hover:text-white transition-colors">Watermark</Link></li>
+              <li><Link href="/protect" className="hover:text-white transition-colors">Protect</Link></li>
+              <li><Link href="/images-to-pdf" className="hover:text-white transition-colors">Images to PDF</Link></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-white font-semibold mb-4">Other Tools</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/convert" className="hover:text-white transition-colors">Convert Files</Link></li>
+              <li><Link href="/resize" className="hover:text-white transition-colors">Resize Images</Link></li>
+              <li><Link href="/qr-code" className="hover:text-white transition-colors">QR Generator</Link></li>
+              <li><Link href="/tools/json-formatter" className="hover:text-white transition-colors">JSON Formatter</Link></li>
+              <li><Link href="/tools/word-counter" className="hover:text-white transition-colors">Word Counter</Link></li>
+              <li><Link href="/tools/base64" className="hover:text-white transition-colors">Base64</Link></li>
             </ul>
           </div>
           

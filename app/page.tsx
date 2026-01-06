@@ -63,6 +63,70 @@ export default function Home() {
             <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Protect</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">Password PDF</div>
           </Link>
+          <Link href="/qr-code" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">📱</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">QR Code</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Generate QR</div>
+          </Link>
+          <Link href="/resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">📐</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Resize</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Image resize</div>
+          </Link>
+          <Link href="/images-to-pdf" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🖼️</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Images→PDF</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Combine images</div>
+          </Link>
+          <Link href="/rotate-pdf" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🔄</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Rotate</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Rotate PDF</div>
+          </Link>
+          <Link href="/watermark" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">💧</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Watermark</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Add text</div>
+          </Link>
+        </div>
+
+        {/* Developer Tools Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Developer & Text Tools</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <Link href="/tools/json-formatter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">{ }</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">JSON Format</div>
+            </Link>
+            <Link href="/tools/base64" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🔤</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Base64</div>
+            </Link>
+            <Link href="/tools/hash" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">#️⃣</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Hash Gen</div>
+            </Link>
+            <Link href="/tools/diff" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📊</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Diff Check</div>
+            </Link>
+            <Link href="/tools/regex" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🔍</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Regex Test</div>
+            </Link>
+            <Link href="/tools/word-counter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📝</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Word Count</div>
+            </Link>
+            <Link href="/tools/case-converter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">Aa</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Case Convert</div>
+            </Link>
+            <Link href="/tools/lorem-ipsum" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📄</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Lorem Ipsum</div>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Section */}

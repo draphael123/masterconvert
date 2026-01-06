@@ -10,8 +10,8 @@ const navItems = [
   { href: '/merge', label: 'Merge' },
   { href: '/split', label: 'Split' },
   { href: '/compress', label: 'Compress' },
-  { href: '/watermark', label: 'Watermark' },
-  { href: '/protect', label: 'Protect' },
+  { href: '/qr-code', label: 'QR Code' },
+  { href: '/resize', label: 'Resize' },
 ];
 
 export default function Header() {

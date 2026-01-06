@@ -20,6 +20,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/split-pdf',
     '/tools/compress-image',
     '/tools/json-to-csv',
+    '/tools/json-formatter',
+    '/tools/base64',
+    '/tools/hash',
+    '/tools/diff',
+    '/tools/regex',
+    '/tools/word-counter',
+    '/tools/case-converter',
+    '/tools/lorem-ipsum',
+    '/images-to-pdf',
+    '/pdf-to-images',
+    '/qr-code',
+    '/rotate-pdf',
+    '/resize',
   ];
 
   const mainSitemap = mainRoutes.map((route) => ({
