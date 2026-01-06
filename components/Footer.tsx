@@ -27,6 +27,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/merge" className="hover:text-white transition-colors">
+                  Merge PDFs
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy" className="hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
@@ -65,4 +70,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 

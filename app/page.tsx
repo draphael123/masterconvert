@@ -20,6 +20,12 @@ export default function Home() {
                 Convert
               </Link>
               <Link
+                href="/merge"
+                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              >
+                Merge PDFs
+              </Link>
+              <Link
                 href="/privacy"
                 className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
               >
