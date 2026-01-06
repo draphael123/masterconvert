@@ -92,12 +92,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const responseBuffer = compressedBuffer.buffer.slice(
-      compressedBuffer.byteOffset,
-      compressedBuffer.byteOffset + compressedBuffer.byteLength
-    );
-
-    return new NextResponse(responseBuffer, {
+    return new NextResponse(new Uint8Array(compressedBuffer), {
       status: 200,
       headers: {
         'Content-Type': contentType,
