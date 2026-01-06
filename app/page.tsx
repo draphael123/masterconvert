@@ -1,40 +1,11 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <nav className="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                FileForge
-              </h1>
-            </div>
-            <div className="flex gap-4">
-              <Link
-                href="/convert"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                Convert
-              </Link>
-              <Link
-                href="/merge"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                Merge PDFs
-              </Link>
-              <Link
-                href="/privacy"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                Privacy
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-16">
@@ -42,13 +13,55 @@ export default function Home() {
             FileForge
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Convert files between formats with privacy and ease
+            Convert, merge, split, compress, and protect files with ease
           </p>
-          <Link
-            href="/convert"
-            className="inline-block px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
-          >
-            Start Converting
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/convert"
+              className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+            >
+              Start Converting
+            </Link>
+            <Link
+              href="/merge"
+              className="px-8 py-3 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-indigo-200 dark:border-gray-600"
+            >
+              Merge PDFs
+            </Link>
+          </div>
+        </div>
+
+        {/* Tools Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+          <Link href="/convert" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🔄</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Convert</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">50+ formats</div>
+          </Link>
+          <Link href="/merge" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">📎</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Merge</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Combine PDFs</div>
+          </Link>
+          <Link href="/split" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">✂️</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Split</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Extract pages</div>
+          </Link>
+          <Link href="/compress" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🗜️</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Compress</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Reduce size</div>
+          </Link>
+          <Link href="/watermark" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">💧</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Watermark</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Add text</div>
+          </Link>
+          <Link href="/protect" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🔐</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Protect</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">Password PDF</div>
           </Link>
         </div>
 

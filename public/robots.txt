@@ -1,0 +1,20 @@
+# FileForge Robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://masterconvert.vercel.app/sitemap.xml
+
+# Block API routes
+Disallow: /api/
+
+# Allow all tools
+Allow: /convert
+Allow: /merge
+Allow: /split
+Allow: /compress
+Allow: /watermark
+Allow: /protect
+Allow: /privacy
+

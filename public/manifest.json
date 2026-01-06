@@ -1,0 +1,43 @@
+{
+  "name": "FileForge - File Converter",
+  "short_name": "FileForge",
+  "description": "Convert, merge, split, compress, and protect files online. Privacy-first file conversion tool.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f2937",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Convert Files",
+      "url": "/convert",
+      "description": "Convert files between formats"
+    },
+    {
+      "name": "Merge PDFs",
+      "url": "/merge",
+      "description": "Combine multiple PDFs"
+    },
+    {
+      "name": "Compress Files",
+      "url": "/compress",
+      "description": "Reduce file sizes"
+    }
+  ]
+}
+
