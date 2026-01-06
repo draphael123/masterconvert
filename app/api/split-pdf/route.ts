@@ -71,12 +71,8 @@ export async function POST(request: NextRequest) {
       }
 
       const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
-      const arrayBuffer = zipBuffer.buffer.slice(
-        zipBuffer.byteOffset,
-        zipBuffer.byteOffset + zipBuffer.byteLength
-      );
 
-      return new NextResponse(arrayBuffer, {
+      return new NextResponse(new Uint8Array(zipBuffer), {
         status: 200,
         headers: {
           'Content-Type': 'application/zip',
@@ -108,12 +104,8 @@ export async function POST(request: NextRequest) {
       }
 
       const pdfBytes = await newPdf.save();
-      const responseBuffer = pdfBytes.buffer.slice(
-        pdfBytes.byteOffset,
-        pdfBytes.byteOffset + pdfBytes.byteLength
-      );
 
-      return new NextResponse(responseBuffer, {
+      return new NextResponse(new Uint8Array(pdfBytes), {
         status: 200,
         headers: {
           'Content-Type': 'application/pdf',

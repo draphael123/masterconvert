@@ -63,12 +63,7 @@ export async function POST(request: NextRequest) {
         break;
     }
 
-    const responseBuffer = outputBuffer.buffer.slice(
-      outputBuffer.byteOffset,
-      outputBuffer.byteOffset + outputBuffer.byteLength
-    );
-
-    return new NextResponse(responseBuffer, {
+    return new NextResponse(new Uint8Array(outputBuffer), {
       status: 200,
       headers: {
         'Content-Type': contentType,

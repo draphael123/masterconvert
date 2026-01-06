@@ -66,12 +66,8 @@ Thank you for using FileForge!
 `);
 
     const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
-    const responseBuffer = zipBuffer.buffer.slice(
-      zipBuffer.byteOffset,
-      zipBuffer.byteOffset + zipBuffer.byteLength
-    );
 
-    return new NextResponse(responseBuffer, {
+    return new NextResponse(new Uint8Array(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',

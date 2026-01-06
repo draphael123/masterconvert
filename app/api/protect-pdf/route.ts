@@ -51,12 +51,7 @@ export async function POST(request: NextRequest) {
     // we'll add a simple XOR-based marker and note this limitation
     // For production, consider using a server-side tool like qpdf
     
-    const responseBuffer = pdfBytes.buffer.slice(
-      pdfBytes.byteOffset,
-      pdfBytes.byteOffset + pdfBytes.byteLength
-    );
-
-    return new NextResponse(responseBuffer, {
+    return new NextResponse(new Uint8Array(pdfBytes), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
