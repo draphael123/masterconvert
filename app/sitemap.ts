@@ -33,6 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/qr-code',
     '/rotate-pdf',
     '/resize',
+    '/heic',
+    '/logo-resize',
   ];
 
   const mainSitemap = mainRoutes.map((route) => ({

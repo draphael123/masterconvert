@@ -78,6 +78,11 @@ export default function Home() {
             <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">HEIC</div>
             <div className="text-xs text-gray-500 dark:text-gray-400">iPhone photos</div>
           </Link>
+          <Link href="/logo-resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+            <div className="text-3xl mb-2">🎨</div>
+            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Logo</div>
+            <div className="text-xs text-gray-500 dark:text-gray-400">All sizes</div>
+          </Link>
           <Link href="/images-to-pdf" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
             <div className="text-3xl mb-2">🖼️</div>
             <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Images→PDF</div>

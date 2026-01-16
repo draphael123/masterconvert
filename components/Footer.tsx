@@ -31,6 +31,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/convert" className="hover:text-white transition-colors">Convert Files</Link></li>
               <li><Link href="/heic" className="hover:text-white transition-colors">HEIC to JPG/PNG</Link></li>
+              <li><Link href="/logo-resize" className="hover:text-white transition-colors">Logo Resizer</Link></li>
               <li><Link href="/resize" className="hover:text-white transition-colors">Resize Images</Link></li>
               <li><Link href="/qr-code" className="hover:text-white transition-colors">QR Generator</Link></li>
             </ul>
