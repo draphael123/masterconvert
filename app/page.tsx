@@ -31,99 +31,102 @@ export default function Home() {
               Start Converting
             </Link>
             <Link
-              href="/merge"
+              href="/pdf-tools"
               className="px-8 py-4 bg-ink-900 dark:bg-ink-100 text-ink-50 dark:text-ink-900 rounded-xl font-semibold hover:bg-ink-800 dark:hover:bg-ink-200 transition-all duration-200"
             >
-              Merge PDFs
+              PDF Tools
             </Link>
           </div>
         </div>
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-20">
+        {/* Tool Categories */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {[
-            { href: '/convert', icon: '🔄', name: 'Convert', desc: '50+ formats' },
-            { href: '/merge', icon: '📎', name: 'Merge', desc: 'Combine PDFs' },
-            { href: '/split', icon: '✂️', name: 'Split', desc: 'Extract pages' },
-            { href: '/compress', icon: '🗜️', name: 'Compress', desc: 'Reduce size' },
-            { href: '/watermark', icon: '💧', name: 'Watermark', desc: 'Add text' },
-            { href: '/protect', icon: '🔐', name: 'Protect', desc: 'Password PDF' },
-            { href: '/qr-code', icon: '📱', name: 'QR Code', desc: 'Generate QR' },
-            { href: '/resize', icon: '📐', name: 'Resize', desc: 'Image resize' },
-            { href: '/heic', icon: '📸', name: 'HEIC', desc: 'iPhone photos' },
-            { href: '/logo-resize', icon: '🎨', name: 'Logo', desc: 'All sizes' },
-            { href: '/images-to-pdf', icon: '🖼️', name: 'Images→PDF', desc: 'Combine images' },
-            { href: '/rotate-pdf', icon: '🔄', name: 'Rotate', desc: 'Rotate PDF' },
-          ].map((tool) => (
-            <Link 
-              key={tool.href}
-              href={tool.href} 
-              className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+            {
+              href: '/pdf-tools',
+              icon: '📄',
+              name: 'PDF Tools',
+              desc: 'Merge, split, compress, rotate, watermark, and protect PDFs',
+              color: 'bg-blue-500',
+              count: '8 tools',
+            },
+            {
+              href: '/image-tools',
+              icon: '🖼️',
+              name: 'Image Tools',
+              desc: 'Resize, compress, crop, convert, and remove backgrounds',
+              color: 'bg-emerald-500',
+              count: '8 tools',
+            },
+            {
+              href: '/dev-tools',
+              icon: '⚡',
+              name: 'Dev Tools',
+              desc: 'JSON formatter, Base64, UUID, hash generator, regex tester',
+              color: 'bg-violet-500',
+              count: '12 tools',
+            },
+            {
+              href: '/content-tools',
+              icon: '✍️',
+              name: 'Content Tools',
+              desc: 'Social media, SEO, writing tools for marketing teams',
+              color: 'bg-accent-500',
+              count: '30+ tools',
+            },
+          ].map((category) => (
+            <Link
+              key={category.href}
+              href={category.href}
+              className="group bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800 hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
-              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-200">{tool.icon}</div>
-              <div className="font-semibold text-ink-900 dark:text-ink-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{tool.name}</div>
-              <div className="text-xs text-ink-500 dark:text-ink-400">{tool.desc}</div>
+              <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center text-3xl text-white mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                {category.icon}
+              </div>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-xl font-semibold text-ink-900 dark:text-ink-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+                  {category.name}
+                </h2>
+                <span className="text-xs text-ink-500 dark:text-ink-400 bg-ink-100 dark:bg-ink-800 px-2 py-1 rounded-full">
+                  {category.count}
+                </span>
+              </div>
+              <p className="text-ink-600 dark:text-ink-400 text-sm leading-relaxed">
+                {category.desc}
+              </p>
             </Link>
           ))}
         </div>
 
-        {/* Developer Tools Section */}
+        {/* Quick Actions */}
         <div className="mb-20">
           <div className="flex items-center gap-4 mb-8">
             <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
-            <h2 className="text-lg font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wider">Developer &amp; Text Tools</h2>
+            <h2 className="text-lg font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wider">Popular Tools</h2>
             <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
           </div>
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {[
-              { href: '/tools/json-formatter', icon: '{ }', name: 'JSON Format' },
-              { href: '/tools/color-picker', icon: '🎨', name: 'Color Picker' },
-              { href: '/tools/base64', icon: '🔤', name: 'Base64' },
-              { href: '/tools/url-encoder', icon: '🔗', name: 'URL Encode' },
-              { href: '/tools/uuid', icon: '🆔', name: 'UUID Gen' },
-              { href: '/tools/timestamp', icon: '⏰', name: 'Timestamp' },
-              { href: '/tools/hash', icon: '#️⃣', name: 'Hash Gen' },
-              { href: '/tools/diff', icon: '📊', name: 'Diff Check' },
-              { href: '/tools/regex', icon: '🔍', name: 'Regex Test' },
-              { href: '/tools/markdown-preview', icon: '📑', name: 'Markdown' },
-              { href: '/tools/word-counter', icon: '📝', name: 'Word Count' },
-              { href: '/tools/aspect-ratio', icon: '📐', name: 'Aspect Ratio' },
-            ].map((tool) => (
-              <Link 
-                key={tool.href}
-                href={tool.href} 
-                className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200"
-              >
-                <div className="text-xl mb-2">{tool.icon}</div>
-                <div className="font-medium text-ink-700 dark:text-ink-300 text-sm">{tool.name}</div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Image Tools Section */}
-        <div className="mb-20">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
-            <h2 className="text-lg font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wider">Image Tools</h2>
-            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
-          </div>
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {[
-              { href: '/tools/background-remover', icon: '✂️', name: 'Remove BG' },
-              { href: '/tools/image-crop', icon: '🖼️', name: 'Crop Image' },
-              { href: '/png-to-jpg', icon: '🔄', name: 'PNG → JPG' },
-              { href: '/jpg-to-png', icon: '🔄', name: 'JPG → PNG' },
+              { href: '/convert', icon: '🔄', name: 'Convert Files' },
+              { href: '/merge', icon: '📎', name: 'Merge PDFs' },
+              { href: '/compress', icon: '🗜️', name: 'Compress' },
+              { href: '/resize', icon: '📐', name: 'Resize Image' },
+              { href: '/qr-code', icon: '📱', name: 'QR Code' },
               { href: '/heic', icon: '📸', name: 'HEIC Convert' },
-              { href: '/logo-resize', icon: '🎨', name: 'Logo Resize' },
+              { href: '/tools/json-formatter', icon: '{ }', name: 'JSON Format' },
+              { href: '/tools/background-remover', icon: '🎭', name: 'Remove BG' },
+              { href: '/content-tools/hashtag-generator', icon: '#', name: 'Hashtags' },
+              { href: '/split', icon: '✂️', name: 'Split PDF' },
+              { href: '/watermark', icon: '💧', name: 'Watermark' },
+              { href: '/protect', icon: '🔐', name: 'Protect PDF' },
             ].map((tool) => (
               <Link 
                 key={tool.href}
                 href={tool.href} 
-                className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200"
+                className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200 hover:shadow-md"
               >
-                <div className="text-xl mb-2">{tool.icon}</div>
-                <div className="font-medium text-ink-700 dark:text-ink-300 text-sm">{tool.name}</div>
+                <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-200">{tool.icon}</div>
+                <div className="font-medium text-ink-700 dark:text-ink-300 text-sm group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{tool.name}</div>
               </Link>
             ))}
           </div>
@@ -132,10 +135,10 @@ export default function Home() {
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
           {[
-            { value: '50+', label: 'Conversion Types' },
-            { value: '100%', label: 'Free to Use' },
+            { value: '50+', label: 'Conversion Formats' },
+            { value: '60+', label: 'Free Tools' },
             { value: '200MB', label: 'Max File Size' },
-            { value: '15min', label: 'Auto Delete' },
+            { value: '100%', label: 'Private & Secure' },
           ].map((stat) => (
             <div key={stat.label} className="bg-ink-900 dark:bg-ink-100 p-6 rounded-2xl text-center">
               <div className="text-3xl font-bold text-accent-400 dark:text-accent-600 mb-1 font-mono">{stat.value}</div>
@@ -144,70 +147,44 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Conversion Types */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
-          {[
-            { title: '📄 Documents', items: ['DOCX → TXT', 'TXT → PDF', 'TXT → DOCX', 'PDF → TXT', 'Markdown → PDF', 'Markdown ↔ HTML', 'HTML → PDF'] },
-            { title: '🖼️ Images', items: ['PNG ↔ JPG', 'PNG/JPG → WebP', 'WebP → PNG/JPG', 'GIF ↔ PNG/JPG/WebP', 'HEIC → JPG/PNG', 'SVG → PNG/JPG', 'PNG/JPG → ICO'] },
-            { title: '🎵 Audio', items: ['MP3 ↔ WAV', 'M4A/AAC → MP3', 'Audio Trimming'] },
-            { title: '🎬 Video', items: ['MP4 → WEBM', 'Extract Audio', 'Resolution Downscale'] },
-            { title: '📊 Data', items: ['CSV ↔ XLSX', 'JSON ↔ CSV', 'JSON ↔ XLSX', 'JSON ↔ YAML', 'XML → JSON/CSV', 'TSV ↔ CSV'] },
-            { title: '🔒 Privacy', items: ['Files deleted after 15 min', 'No permanent storage', 'Secure processing'] },
-          ].map((category) => (
-            <div key={category.title} className="bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800">
-              <h2 className="text-lg font-semibold text-ink-900 dark:text-ink-100 mb-4">
-                {category.title}
-              </h2>
-              <ul className="text-ink-600 dark:text-ink-400 space-y-2 text-sm">
-                {category.items.map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-accent-500 rounded-full" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
         {/* How It Works */}
-        <div className="bg-ink-900 dark:bg-ink-100 p-8 md:p-12 rounded-3xl mb-20">
-          <h2 className="text-2xl font-bold text-ink-50 dark:text-ink-900 mb-8 text-center">
+        <div className="bg-white dark:bg-ink-900 border border-ink-200 dark:border-ink-800 p-8 md:p-12 rounded-3xl mb-20">
+          <h2 className="text-2xl font-bold text-ink-900 dark:text-ink-100 mb-8 text-center">
             How It Works
           </h2>
-          <div className="grid md:grid-cols-5 gap-6">
+          <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: '01', text: 'Upload your files using drag & drop' },
-              { step: '02', text: 'Select your desired output format' },
-              { step: '03', text: 'Wait for conversion to complete' },
-              { step: '04', text: 'Download converted files' },
-              { step: '05', text: 'Files auto-delete in 15 min' },
+              { step: '01', title: 'Upload', desc: 'Drag & drop or select files' },
+              { step: '02', title: 'Process', desc: 'Choose your operation' },
+              { step: '03', title: 'Download', desc: 'Get your converted files' },
+              { step: '04', title: 'Auto-Delete', desc: 'Files removed in 15 min' },
             ].map((item) => (
               <div key={item.step} className="text-center">
-                <div className="text-4xl font-bold text-accent-400 dark:text-accent-600 font-mono mb-3">{item.step}</div>
-                <p className="text-ink-300 dark:text-ink-700 text-sm">{item.text}</p>
+                <div className="text-4xl font-bold text-accent-500 font-mono mb-3">{item.step}</div>
+                <h3 className="font-semibold text-ink-900 dark:text-ink-100 mb-1">{item.title}</h3>
+                <p className="text-ink-600 dark:text-ink-400 text-sm">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Why Choose */}
+        {/* Features Grid */}
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-ink-900 dark:text-ink-100 text-center mb-12">
             Why Choose FileForge?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: '🔒', title: 'Privacy First', desc: 'Your files are processed securely and automatically deleted after 15 minutes. We never store your data permanently.' },
-              { icon: '⚡', title: 'Fast & Reliable', desc: 'Convert files in seconds with our optimized processing pipeline. Real-time progress tracking keeps you informed.' },
-              { icon: '🌐', title: 'No Installation', desc: 'Works entirely in your browser. No software downloads, no plugins, no hassle. Just upload, convert, and download.' },
-              { icon: '📦', title: 'Batch Processing', desc: 'Convert multiple files at once and download them individually or as a convenient ZIP archive.' },
-              { icon: '🎯', title: '50+ Formats', desc: 'Support for documents, images, audio, video, and data formats. From PDFs to spreadsheets, we\'ve got you covered.' },
-              { icon: '💯', title: 'Completely Free', desc: 'No credit card required, no hidden fees, no subscriptions. Convert your files completely free.' },
+              { icon: '🔒', title: 'Privacy First', desc: 'Files are automatically deleted after 15 minutes. We never store your data permanently.' },
+              { icon: '⚡', title: 'Lightning Fast', desc: 'Optimized processing pipeline. Most conversions complete in seconds.' },
+              { icon: '🌐', title: 'No Installation', desc: 'Works entirely in your browser. No software downloads or plugins needed.' },
+              { icon: '📦', title: 'Batch Processing', desc: 'Convert multiple files at once. Download individually or as a ZIP archive.' },
+              { icon: '🎯', title: '60+ Tools', desc: 'Comprehensive toolkit for files, images, PDFs, and content creation.' },
+              { icon: '💯', title: 'Completely Free', desc: 'No registration, no credit card, no hidden fees. All tools are free.' },
             ].map((feature) => (
-              <div key={feature.title} className="bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800 hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-300 group">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-ink-900 dark:text-ink-100 mb-3">
+              <div key={feature.title} className="bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800">
+                <div className="text-3xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-100 mb-2">
                   {feature.title}
                 </h3>
                 <p className="text-ink-600 dark:text-ink-400 text-sm leading-relaxed">
@@ -229,23 +206,22 @@ export default function Home() {
         </div>
 
         {/* FAQ Section */}
-        <div className="bg-white dark:bg-ink-900 p-8 md:p-12 rounded-3xl border border-ink-200 dark:border-ink-800 mb-16">
-          <h2 className="text-3xl font-bold text-ink-900 dark:text-ink-100 text-center mb-10">
+        <div className="bg-white dark:bg-ink-900 p-8 md:p-12 rounded-3xl border border-ink-200 dark:border-ink-800">
+          <h2 className="text-2xl font-bold text-ink-900 dark:text-ink-100 text-center mb-10">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-6 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 max-w-4xl mx-auto">
             {[
-              { q: 'Is FileForge free to use?', a: 'Yes! FileForge is completely free to use. No registration, no credit card, no hidden fees. Just upload, convert, and download.' },
-              { q: 'How secure is my data?', a: 'Your files are processed securely and automatically deleted after 15 minutes. We never store your files permanently or share them with third parties.' },
-              { q: 'What file size limits apply?', a: 'The maximum file size is 200MB per file. This limit helps ensure fast processing and server stability.' },
-              { q: 'Can I convert multiple files at once?', a: 'Absolutely! You can upload multiple files and convert them all at once. Download them individually or as a convenient ZIP archive.' },
-              { q: 'How long are files stored?', a: 'Files are automatically deleted after 15 minutes, or immediately after you download the converted files.' },
+              { q: 'Is FileForge free?', a: 'Yes! All tools are 100% free with no registration required.' },
+              { q: 'How secure is my data?', a: 'Files are deleted after 15 minutes. We never store data permanently.' },
+              { q: 'What\'s the file size limit?', a: 'Maximum 200MB per file to ensure fast processing.' },
+              { q: 'Can I batch convert?', a: 'Yes! Upload multiple files and download as ZIP.' },
             ].map((faq) => (
-              <div key={faq.q} className="border-b border-ink-200 dark:border-ink-800 pb-6 last:border-0">
-                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-100 mb-2">
+              <div key={faq.q}>
+                <h3 className="font-semibold text-ink-900 dark:text-ink-100 mb-1">
                   {faq.q}
                 </h3>
-                <p className="text-ink-600 dark:text-ink-400 leading-relaxed">
+                <p className="text-ink-600 dark:text-ink-400 text-sm">
                   {faq.a}
                 </p>
               </div>
