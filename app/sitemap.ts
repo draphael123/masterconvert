@@ -15,19 +15,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const toolRoutes = [
+    // PDF Tools
     '/tools/pdf-to-txt',
     '/tools/merge-pdf',
     '/tools/split-pdf',
     '/tools/compress-image',
+    '/compress-pdf',
+    // Data Tools
     '/tools/json-to-csv',
     '/tools/json-formatter',
     '/tools/base64',
     '/tools/hash',
     '/tools/diff',
     '/tools/regex',
+    // Text Tools
     '/tools/word-counter',
     '/tools/case-converter',
     '/tools/lorem-ipsum',
+    '/tools/markdown-preview',
+    // Image Tools
     '/images-to-pdf',
     '/pdf-to-images',
     '/qr-code',
@@ -35,6 +41,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/resize',
     '/heic',
     '/logo-resize',
+    '/png-to-jpg',
+    '/jpg-to-png',
+    '/tools/background-remover',
+    '/tools/image-crop',
+    '/tools/color-picker',
+    // Developer Tools
+    '/tools/url-encoder',
+    '/tools/timestamp',
+    '/tools/uuid',
+    '/tools/aspect-ratio',
+    '/tools/exif-viewer',
   ];
 
   const mainSitemap = mainRoutes.map((route) => ({

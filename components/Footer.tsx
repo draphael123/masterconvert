@@ -32,6 +32,8 @@ export default function Footer() {
               <li><Link href="/convert" className="hover:text-white transition-colors">Convert Files</Link></li>
               <li><Link href="/heic" className="hover:text-white transition-colors">HEIC to JPG/PNG</Link></li>
               <li><Link href="/logo-resize" className="hover:text-white transition-colors">Logo Resizer</Link></li>
+              <li><Link href="/tools/background-remover" className="hover:text-white transition-colors">Background Remover</Link></li>
+              <li><Link href="/tools/image-crop" className="hover:text-white transition-colors">Image Cropper</Link></li>
               <li><Link href="/resize" className="hover:text-white transition-colors">Resize Images</Link></li>
               <li><Link href="/qr-code" className="hover:text-white transition-colors">QR Generator</Link></li>
             </ul>
@@ -41,9 +43,12 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Dev Tools</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/tools/json-formatter" className="hover:text-white transition-colors">JSON Formatter</Link></li>
+              <li><Link href="/tools/color-picker" className="hover:text-white transition-colors">Color Picker</Link></li>
               <li><Link href="/tools/base64" className="hover:text-white transition-colors">Base64</Link></li>
-              <li><Link href="/tools/hash" className="hover:text-white transition-colors">Hash Generator</Link></li>
-              <li><Link href="/tools/regex" className="hover:text-white transition-colors">Regex Tester</Link></li>
+              <li><Link href="/tools/url-encoder" className="hover:text-white transition-colors">URL Encoder</Link></li>
+              <li><Link href="/tools/uuid" className="hover:text-white transition-colors">UUID Generator</Link></li>
+              <li><Link href="/tools/timestamp" className="hover:text-white transition-colors">Timestamp</Link></li>
+              <li><Link href="/tools/markdown-preview" className="hover:text-white transition-colors">Markdown Preview</Link></li>
             </ul>
           </div>
           

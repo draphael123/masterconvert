@@ -103,9 +103,25 @@ export default function Home() {
               <div className="text-2xl mb-2">{ }</div>
               <div className="font-medium text-gray-900 dark:text-white text-sm">JSON Format</div>
             </Link>
+            <Link href="/tools/color-picker" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🎨</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Color Picker</div>
+            </Link>
             <Link href="/tools/base64" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
               <div className="text-2xl mb-2">🔤</div>
               <div className="font-medium text-gray-900 dark:text-white text-sm">Base64</div>
+            </Link>
+            <Link href="/tools/url-encoder" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🔗</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">URL Encode</div>
+            </Link>
+            <Link href="/tools/uuid" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🆔</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">UUID Gen</div>
+            </Link>
+            <Link href="/tools/timestamp" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">⏰</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Timestamp</div>
             </Link>
             <Link href="/tools/hash" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
               <div className="text-2xl mb-2">#️⃣</div>
@@ -119,17 +135,48 @@ export default function Home() {
               <div className="text-2xl mb-2">🔍</div>
               <div className="font-medium text-gray-900 dark:text-white text-sm">Regex Test</div>
             </Link>
+            <Link href="/tools/markdown-preview" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📑</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Markdown</div>
+            </Link>
             <Link href="/tools/word-counter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
               <div className="text-2xl mb-2">📝</div>
               <div className="font-medium text-gray-900 dark:text-white text-sm">Word Count</div>
             </Link>
-            <Link href="/tools/case-converter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">Aa</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Case Convert</div>
+            <Link href="/tools/aspect-ratio" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📐</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Aspect Ratio</div>
             </Link>
-            <Link href="/tools/lorem-ipsum" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📄</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Lorem Ipsum</div>
+          </div>
+        </div>
+
+        {/* Image Tools Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Image Tools</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <Link href="/tools/background-remover" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">✂️</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Remove BG</div>
+            </Link>
+            <Link href="/tools/image-crop" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🖼️</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Crop Image</div>
+            </Link>
+            <Link href="/png-to-jpg" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🔄</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">PNG → JPG</div>
+            </Link>
+            <Link href="/jpg-to-png" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🔄</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">JPG → PNG</div>
+            </Link>
+            <Link href="/heic" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">📸</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">HEIC Convert</div>
+            </Link>
+            <Link href="/logo-resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
+              <div className="text-2xl mb-2">🎨</div>
+              <div className="font-medium text-gray-900 dark:text-white text-sm">Logo Resize</div>
             </Link>
           </div>
         </div>
