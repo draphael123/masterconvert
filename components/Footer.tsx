@@ -40,15 +40,15 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-white font-semibold mb-4">Dev Tools</h4>
+            <h4 className="text-white font-semibold mb-4">Content Tools</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/tools/json-formatter" className="hover:text-white transition-colors">JSON Formatter</Link></li>
-              <li><Link href="/tools/color-picker" className="hover:text-white transition-colors">Color Picker</Link></li>
-              <li><Link href="/tools/base64" className="hover:text-white transition-colors">Base64</Link></li>
-              <li><Link href="/tools/url-encoder" className="hover:text-white transition-colors">URL Encoder</Link></li>
-              <li><Link href="/tools/uuid" className="hover:text-white transition-colors">UUID Generator</Link></li>
-              <li><Link href="/tools/timestamp" className="hover:text-white transition-colors">Timestamp</Link></li>
-              <li><Link href="/tools/markdown-preview" className="hover:text-white transition-colors">Markdown Preview</Link></li>
+              <li><Link href="/content-tools" className="hover:text-white transition-colors text-violet-400">All Content Tools →</Link></li>
+              <li><Link href="/content-tools/headline-analyzer" className="hover:text-white transition-colors">Headline Analyzer</Link></li>
+              <li><Link href="/content-tools/meta-generator" className="hover:text-white transition-colors">Meta Tag Generator</Link></li>
+              <li><Link href="/content-tools/social-resizer" className="hover:text-white transition-colors">Social Resizer</Link></li>
+              <li><Link href="/content-tools/hashtag-generator" className="hover:text-white transition-colors">Hashtag Generator</Link></li>
+              <li><Link href="/content-tools/readability" className="hover:text-white transition-colors">Readability Score</Link></li>
+              <li><Link href="/content-tools/quote-maker" className="hover:text-white transition-colors">Quote Maker</Link></li>
             </ul>
           </div>
           

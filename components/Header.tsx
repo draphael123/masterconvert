@@ -8,8 +8,8 @@ import ThemeToggle from './ThemeToggle';
 const navItems = [
   { href: '/convert', label: 'Convert' },
   { href: '/merge', label: 'Merge' },
-  { href: '/split', label: 'Split' },
   { href: '/compress', label: 'Compress' },
+  { href: '/content-tools', label: 'Content Tools', highlight: true },
   { href: '/qr-code', label: 'QR Code' },
   { href: '/resize', label: 'Resize' },
 ];
@@ -35,6 +35,8 @@ export default function Header() {
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   pathname === item.href
                     ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300'
+                    : (item as { highlight?: boolean }).highlight
+                    ? 'text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/30'
                     : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
