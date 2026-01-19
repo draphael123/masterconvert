@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const TEMPLATES = {
@@ -79,18 +79,7 @@ export default function BioGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <header className="border-b border-white/10 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-white">
-              File<span className="text-purple-400">Forge</span>
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/content-tools" className="text-gray-300 hover:text-white transition-colors">← Content Tools</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-5xl mx-auto px-4 py-12">
         <div className="text-center mb-10">
