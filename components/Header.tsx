@@ -19,11 +19,13 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
+    <header className="bg-ink-50 dark:bg-ink-950 border-b border-ink-200 dark:border-ink-800 sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            FileForge
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="text-2xl font-bold tracking-tight text-ink-900 dark:text-ink-50">
+              File<span className="text-accent-500">Forge</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -34,19 +36,19 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300'
+                      ? 'bg-accent-500 text-white shadow-sm'
                       : (item as { highlight?: boolean }).highlight
-                      ? 'text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/30'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'text-accent-600 dark:text-accent-400 hover:bg-accent-50 dark:hover:bg-accent-950/50'
+                      : 'text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800 hover:text-ink-900 dark:hover:text-ink-100'
                   }`}
                 >
                   {item.label}
                 </Link>
               );
             })}
-            <div className="ml-2">
+            <div className="ml-3 pl-3 border-l border-ink-200 dark:border-ink-700">
               <ThemeToggle />
             </div>
           </nav>
@@ -56,7 +58,7 @@ export default function Header() {
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-2 rounded-lg text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800 transition-colors"
             >
               {mobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,7 +75,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden pb-4">
+          <nav className="md:hidden pb-4 border-t border-ink-200 dark:border-ink-800 pt-4 mt-2">
             <div className="flex flex-col gap-1">
               {navItems.map((item) => {
                 const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
@@ -82,10 +84,10 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                       isActive
-                        ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        ? 'bg-accent-500 text-white'
+                        : 'text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800'
                     }`}
                   >
                     {item.label}

@@ -4,27 +4,35 @@ import Header from "@/components/Header";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-ink-50 dark:bg-ink-950">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            FileForge
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-20 relative">
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-500/10 dark:bg-accent-500/5 rounded-full blur-3xl" />
+          </div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-100 dark:bg-accent-900/30 rounded-full text-accent-700 dark:text-accent-300 text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-accent-500 rounded-full animate-pulse" />
+            Free &amp; Privacy-First
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold text-ink-900 dark:text-ink-50 mb-6 tracking-tight">
+            File<span className="text-accent-500">Forge</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+          <p className="text-xl md:text-2xl text-ink-600 dark:text-ink-400 mb-10 max-w-2xl mx-auto font-light">
             Convert, merge, split, compress, and protect files with ease
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/convert"
-              className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+              className="px-8 py-4 bg-accent-500 text-white rounded-xl font-semibold hover:bg-accent-600 transition-all duration-200 shadow-lg shadow-accent-500/25 hover:shadow-xl hover:shadow-accent-500/30 hover:-translate-y-0.5"
             >
               Start Converting
             </Link>
             <Link
               href="/merge"
-              className="px-8 py-3 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-indigo-200 dark:border-gray-600"
+              className="px-8 py-4 bg-ink-900 dark:bg-ink-100 text-ink-50 dark:text-ink-900 rounded-xl font-semibold hover:bg-ink-800 dark:hover:bg-ink-200 transition-all duration-200"
             >
               Merge PDFs
             </Link>
@@ -32,421 +40,216 @@ export default function Home() {
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
-          <Link href="/convert" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🔄</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Convert</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">50+ formats</div>
-          </Link>
-          <Link href="/merge" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">📎</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Merge</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Combine PDFs</div>
-          </Link>
-          <Link href="/split" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">✂️</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Split</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Extract pages</div>
-          </Link>
-          <Link href="/compress" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🗜️</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Compress</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Reduce size</div>
-          </Link>
-          <Link href="/watermark" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">💧</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Watermark</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Add text</div>
-          </Link>
-          <Link href="/protect" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🔐</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Protect</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Password PDF</div>
-          </Link>
-          <Link href="/qr-code" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">📱</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">QR Code</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Generate QR</div>
-          </Link>
-          <Link href="/resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">📐</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Resize</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Image resize</div>
-          </Link>
-          <Link href="/heic" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">📸</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">HEIC</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">iPhone photos</div>
-          </Link>
-          <Link href="/logo-resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🎨</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Logo</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">All sizes</div>
-          </Link>
-          <Link href="/images-to-pdf" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🖼️</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Images→PDF</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Combine images</div>
-          </Link>
-          <Link href="/rotate-pdf" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-            <div className="text-3xl mb-2">🔄</div>
-            <div className="font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">Rotate</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Rotate PDF</div>
-          </Link>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-20">
+          {[
+            { href: '/convert', icon: '🔄', name: 'Convert', desc: '50+ formats' },
+            { href: '/merge', icon: '📎', name: 'Merge', desc: 'Combine PDFs' },
+            { href: '/split', icon: '✂️', name: 'Split', desc: 'Extract pages' },
+            { href: '/compress', icon: '🗜️', name: 'Compress', desc: 'Reduce size' },
+            { href: '/watermark', icon: '💧', name: 'Watermark', desc: 'Add text' },
+            { href: '/protect', icon: '🔐', name: 'Protect', desc: 'Password PDF' },
+            { href: '/qr-code', icon: '📱', name: 'QR Code', desc: 'Generate QR' },
+            { href: '/resize', icon: '📐', name: 'Resize', desc: 'Image resize' },
+            { href: '/heic', icon: '📸', name: 'HEIC', desc: 'iPhone photos' },
+            { href: '/logo-resize', icon: '🎨', name: 'Logo', desc: 'All sizes' },
+            { href: '/images-to-pdf', icon: '🖼️', name: 'Images→PDF', desc: 'Combine images' },
+            { href: '/rotate-pdf', icon: '🔄', name: 'Rotate', desc: 'Rotate PDF' },
+          ].map((tool) => (
+            <Link 
+              key={tool.href}
+              href={tool.href} 
+              className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+            >
+              <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-200">{tool.icon}</div>
+              <div className="font-semibold text-ink-900 dark:text-ink-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">{tool.name}</div>
+              <div className="text-xs text-ink-500 dark:text-ink-400">{tool.desc}</div>
+            </Link>
+          ))}
         </div>
 
         {/* Developer Tools Section */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Developer & Text Tools</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <Link href="/tools/json-formatter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">{ }</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">JSON Format</div>
-            </Link>
-            <Link href="/tools/color-picker" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🎨</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Color Picker</div>
-            </Link>
-            <Link href="/tools/base64" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🔤</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Base64</div>
-            </Link>
-            <Link href="/tools/url-encoder" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🔗</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">URL Encode</div>
-            </Link>
-            <Link href="/tools/uuid" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🆔</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">UUID Gen</div>
-            </Link>
-            <Link href="/tools/timestamp" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">⏰</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Timestamp</div>
-            </Link>
-            <Link href="/tools/hash" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">#️⃣</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Hash Gen</div>
-            </Link>
-            <Link href="/tools/diff" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📊</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Diff Check</div>
-            </Link>
-            <Link href="/tools/regex" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🔍</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Regex Test</div>
-            </Link>
-            <Link href="/tools/markdown-preview" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📑</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Markdown</div>
-            </Link>
-            <Link href="/tools/word-counter" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📝</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Word Count</div>
-            </Link>
-            <Link href="/tools/aspect-ratio" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📐</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Aspect Ratio</div>
-            </Link>
+        <div className="mb-20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
+            <h2 className="text-lg font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wider">Developer &amp; Text Tools</h2>
+            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
+          </div>
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {[
+              { href: '/tools/json-formatter', icon: '{ }', name: 'JSON Format' },
+              { href: '/tools/color-picker', icon: '🎨', name: 'Color Picker' },
+              { href: '/tools/base64', icon: '🔤', name: 'Base64' },
+              { href: '/tools/url-encoder', icon: '🔗', name: 'URL Encode' },
+              { href: '/tools/uuid', icon: '🆔', name: 'UUID Gen' },
+              { href: '/tools/timestamp', icon: '⏰', name: 'Timestamp' },
+              { href: '/tools/hash', icon: '#️⃣', name: 'Hash Gen' },
+              { href: '/tools/diff', icon: '📊', name: 'Diff Check' },
+              { href: '/tools/regex', icon: '🔍', name: 'Regex Test' },
+              { href: '/tools/markdown-preview', icon: '📑', name: 'Markdown' },
+              { href: '/tools/word-counter', icon: '📝', name: 'Word Count' },
+              { href: '/tools/aspect-ratio', icon: '📐', name: 'Aspect Ratio' },
+            ].map((tool) => (
+              <Link 
+                key={tool.href}
+                href={tool.href} 
+                className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200"
+              >
+                <div className="text-xl mb-2">{tool.icon}</div>
+                <div className="font-medium text-ink-700 dark:text-ink-300 text-sm">{tool.name}</div>
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* Image Tools Section */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Image Tools</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <Link href="/tools/background-remover" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">✂️</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Remove BG</div>
-            </Link>
-            <Link href="/tools/image-crop" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🖼️</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Crop Image</div>
-            </Link>
-            <Link href="/png-to-jpg" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🔄</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">PNG → JPG</div>
-            </Link>
-            <Link href="/jpg-to-png" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🔄</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">JPG → PNG</div>
-            </Link>
-            <Link href="/heic" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">📸</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">HEIC Convert</div>
-            </Link>
-            <Link href="/logo-resize" className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow group">
-              <div className="text-2xl mb-2">🎨</div>
-              <div className="font-medium text-gray-900 dark:text-white text-sm">Logo Resize</div>
-            </Link>
+        <div className="mb-20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
+            <h2 className="text-lg font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wider">Image Tools</h2>
+            <div className="h-px flex-1 bg-ink-200 dark:bg-ink-800" />
+          </div>
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {[
+              { href: '/tools/background-remover', icon: '✂️', name: 'Remove BG' },
+              { href: '/tools/image-crop', icon: '🖼️', name: 'Crop Image' },
+              { href: '/png-to-jpg', icon: '🔄', name: 'PNG → JPG' },
+              { href: '/jpg-to-png', icon: '🔄', name: 'JPG → PNG' },
+              { href: '/heic', icon: '📸', name: 'HEIC Convert' },
+              { href: '/logo-resize', icon: '🎨', name: 'Logo Resize' },
+            ].map((tool) => (
+              <Link 
+                key={tool.href}
+                href={tool.href} 
+                className="group bg-white dark:bg-ink-900 p-4 rounded-xl border border-ink-200 dark:border-ink-800 text-center hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-200"
+              >
+                <div className="text-xl mb-2">{tool.icon}</div>
+                <div className="font-medium text-ink-700 dark:text-ink-300 text-sm">{tool.name}</div>
+              </Link>
+            ))}
           </div>
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16" key="stats">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">50+</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Conversion Types</div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">100%</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Free to Use</div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">200MB</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Max File Size</div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-            <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">15min</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Auto Delete</div>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+          {[
+            { value: '50+', label: 'Conversion Types' },
+            { value: '100%', label: 'Free to Use' },
+            { value: '200MB', label: 'Max File Size' },
+            { value: '15min', label: 'Auto Delete' },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-ink-900 dark:bg-ink-100 p-6 rounded-2xl text-center">
+              <div className="text-3xl font-bold text-accent-400 dark:text-accent-600 mb-1 font-mono">{stat.value}</div>
+              <div className="text-sm text-ink-400 dark:text-ink-600">{stat.label}</div>
+            </div>
+          ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              📄 Documents
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>DOCX → TXT</li>
-              <li>TXT → PDF</li>
-              <li>TXT → DOCX</li>
-              <li>PDF → TXT</li>
-              <li>Markdown → PDF</li>
-              <li>Markdown ↔ HTML</li>
-              <li>HTML → PDF</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              🖼️ Images
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>PNG ↔ JPG</li>
-              <li>PNG/JPG → WebP</li>
-              <li>WebP → PNG/JPG</li>
-              <li>GIF ↔ PNG/JPG/WebP</li>
-              <li>HEIC → JPG/PNG (iPhone)</li>
-              <li>SVG → PNG/JPG</li>
-              <li>PNG/JPG → ICO (Favicon)</li>
-              <li>Resize & Compress</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              🎵 Audio
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>MP3 ↔ WAV</li>
-              <li>M4A/AAC → MP3</li>
-              <li>Audio Trimming</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              🎬 Video
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>MP4 → WEBM</li>
-              <li>Extract Audio</li>
-              <li>Resolution Downscale</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              📊 Data
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>CSV ↔ XLSX</li>
-              <li>JSON ↔ CSV</li>
-              <li>JSON ↔ XLSX</li>
-              <li>JSON ↔ YAML</li>
-              <li>XLSX → CSV/JSON</li>
-              <li>Markdown → CSV</li>
-              <li>XML → JSON/CSV</li>
-              <li>YAML → JSON/CSV</li>
-              <li>TSV ↔ CSV</li>
-            </ul>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-              🔒 Privacy
-            </h2>
-            <ul className="text-gray-600 dark:text-gray-300 space-y-2">
-              <li>Files deleted after 15 min</li>
-              <li>No permanent storage</li>
-              <li>Secure processing</li>
-            </ul>
-          </div>
+        {/* Conversion Types */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+          {[
+            { title: '📄 Documents', items: ['DOCX → TXT', 'TXT → PDF', 'TXT → DOCX', 'PDF → TXT', 'Markdown → PDF', 'Markdown ↔ HTML', 'HTML → PDF'] },
+            { title: '🖼️ Images', items: ['PNG ↔ JPG', 'PNG/JPG → WebP', 'WebP → PNG/JPG', 'GIF ↔ PNG/JPG/WebP', 'HEIC → JPG/PNG', 'SVG → PNG/JPG', 'PNG/JPG → ICO'] },
+            { title: '🎵 Audio', items: ['MP3 ↔ WAV', 'M4A/AAC → MP3', 'Audio Trimming'] },
+            { title: '🎬 Video', items: ['MP4 → WEBM', 'Extract Audio', 'Resolution Downscale'] },
+            { title: '📊 Data', items: ['CSV ↔ XLSX', 'JSON ↔ CSV', 'JSON ↔ XLSX', 'JSON ↔ YAML', 'XML → JSON/CSV', 'TSV ↔ CSV'] },
+            { title: '🔒 Privacy', items: ['Files deleted after 15 min', 'No permanent storage', 'Secure processing'] },
+          ].map((category) => (
+            <div key={category.title} className="bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800">
+              <h2 className="text-lg font-semibold text-ink-900 dark:text-ink-100 mb-4">
+                {category.title}
+              </h2>
+              <ul className="text-ink-600 dark:text-ink-400 space-y-2 text-sm">
+                {category.items.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-accent-500 rounded-full" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-16">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        {/* How It Works */}
+        <div className="bg-ink-900 dark:bg-ink-100 p-8 md:p-12 rounded-3xl mb-20">
+          <h2 className="text-2xl font-bold text-ink-50 dark:text-ink-900 mb-8 text-center">
             How It Works
           </h2>
-          <ol className="list-decimal list-inside space-y-3 text-gray-600 dark:text-gray-300">
-            <li>Upload your files using drag & drop or file picker</li>
-            <li>Select your desired output format</li>
-            <li>Wait for conversion to complete</li>
-            <li>Download your converted files individually or as a ZIP</li>
-            <li>Files are automatically deleted after 15 minutes</li>
-          </ol>
-        </div>
-
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
-            Why Choose FileForge?
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Privacy First
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Your files are processed securely and automatically deleted after 15 minutes. 
-                We never store your data permanently or share it with third parties.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Fast & Reliable
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Convert files in seconds with our optimized processing pipeline. 
-                Real-time progress tracking keeps you informed every step of the way.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">🌐</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                No Installation Required
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Works entirely in your browser. No software downloads, no plugins, 
-                no hassle. Just upload, convert, and download.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">📦</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Multiple File Support
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Convert multiple files at once and download them individually or 
-                as a convenient ZIP archive. Batch processing made simple.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                50+ Conversion Types
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Support for documents, images, audio, video, and data formats. 
-                From PDFs to spreadsheets, we&apos;ve got you covered.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl mb-4">💯</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Free to Use
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                No credit card required, no hidden fees, no subscriptions. 
-                Convert your files completely free with generous file size limits.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-5 gap-6">
+            {[
+              { step: '01', text: 'Upload your files using drag & drop' },
+              { step: '02', text: 'Select your desired output format' },
+              { step: '03', text: 'Wait for conversion to complete' },
+              { step: '04', text: 'Download converted files' },
+              { step: '05', text: 'Files auto-delete in 15 min' },
+            ].map((item) => (
+              <div key={item.step} className="text-center">
+                <div className="text-4xl font-bold text-accent-400 dark:text-accent-600 font-mono mb-3">{item.step}</div>
+                <p className="text-ink-300 dark:text-ink-700 text-sm">{item.text}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="text-center mb-16">
+        {/* Why Choose */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-ink-900 dark:text-ink-100 text-center mb-12">
+            Why Choose FileForge?
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: '🔒', title: 'Privacy First', desc: 'Your files are processed securely and automatically deleted after 15 minutes. We never store your data permanently.' },
+              { icon: '⚡', title: 'Fast & Reliable', desc: 'Convert files in seconds with our optimized processing pipeline. Real-time progress tracking keeps you informed.' },
+              { icon: '🌐', title: 'No Installation', desc: 'Works entirely in your browser. No software downloads, no plugins, no hassle. Just upload, convert, and download.' },
+              { icon: '📦', title: 'Batch Processing', desc: 'Convert multiple files at once and download them individually or as a convenient ZIP archive.' },
+              { icon: '🎯', title: '50+ Formats', desc: 'Support for documents, images, audio, video, and data formats. From PDFs to spreadsheets, we\'ve got you covered.' },
+              { icon: '💯', title: 'Completely Free', desc: 'No credit card required, no hidden fees, no subscriptions. Convert your files completely free.' },
+            ].map((feature) => (
+              <div key={feature.title} className="bg-white dark:bg-ink-900 p-6 rounded-2xl border border-ink-200 dark:border-ink-800 hover:border-accent-300 dark:hover:border-accent-700 transition-all duration-300 group">
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-ink-900 dark:text-ink-100 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-ink-600 dark:text-ink-400 text-sm leading-relaxed">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mb-20">
           <Link
             href="/convert"
-            className="inline-block px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-lg"
+            className="inline-block px-10 py-5 bg-accent-500 text-white rounded-xl font-semibold hover:bg-accent-600 transition-all duration-200 text-lg shadow-lg shadow-accent-500/25 hover:shadow-xl hover:shadow-accent-500/30 hover:-translate-y-0.5"
           >
-            Start Converting Now
+            Start Converting Now →
           </Link>
         </div>
 
         {/* FAQ Section */}
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-8">
+        <div className="bg-white dark:bg-ink-900 p-8 md:p-12 rounded-3xl border border-ink-200 dark:border-ink-800 mb-16">
+          <h2 className="text-3xl font-bold text-ink-900 dark:text-ink-100 text-center mb-10">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6 max-w-3xl mx-auto">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Is FileForge free to use?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Yes! FileForge is completely free to use. No registration, no credit card, 
-                no hidden fees. Just upload, convert, and download.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                How secure is my data?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Your files are processed securely and automatically deleted after 15 minutes. 
-                We never store your files permanently or share them with third parties. 
-                All processing happens in isolated environments.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                What file size limits apply?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                The maximum file size is 200MB per file. This limit helps ensure fast 
-                processing and server stability. For larger files, consider splitting 
-                them into smaller chunks.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Can I convert multiple files at once?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Absolutely! You can upload multiple files and convert them all at once. 
-                Download them individually or as a convenient ZIP archive.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                Which conversions work on Vercel/serverless?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Image conversions, data format conversions (CSV, JSON, XLSX, etc.), and 
-                document conversions like TXT/MD/HTML to PDF work perfectly. Audio/video 
-                conversions require FFmpeg which isn&apos;t available in serverless environments.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                How long are files stored?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Files are automatically deleted after 15 minutes, or immediately after you 
-                download the converted files. We don&apos;t store your files permanently.
-              </p>
-            </div>
+            {[
+              { q: 'Is FileForge free to use?', a: 'Yes! FileForge is completely free to use. No registration, no credit card, no hidden fees. Just upload, convert, and download.' },
+              { q: 'How secure is my data?', a: 'Your files are processed securely and automatically deleted after 15 minutes. We never store your files permanently or share them with third parties.' },
+              { q: 'What file size limits apply?', a: 'The maximum file size is 200MB per file. This limit helps ensure fast processing and server stability.' },
+              { q: 'Can I convert multiple files at once?', a: 'Absolutely! You can upload multiple files and convert them all at once. Download them individually or as a convenient ZIP archive.' },
+              { q: 'How long are files stored?', a: 'Files are automatically deleted after 15 minutes, or immediately after you download the converted files.' },
+            ].map((faq) => (
+              <div key={faq.q} className="border-b border-ink-200 dark:border-ink-800 pb-6 last:border-0">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-100 mb-2">
+                  {faq.q}
+                </h3>
+                <p className="text-ink-600 dark:text-ink-400 leading-relaxed">
+                  {faq.a}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </main>
@@ -454,4 +257,3 @@ export default function Home() {
     </div>
   );
 }
-
