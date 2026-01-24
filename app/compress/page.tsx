@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 interface CompressFile {
@@ -17,15 +17,37 @@ interface CompressFile {
 }
 
 const MAX_FILE_SIZE_MB = 200;
+const MAX_FILES = 50;
 
 export default function CompressPage() {
   const [files, setFiles] = useState<CompressFile[]>([]);
   const [compressionType, setCompressionType] = useState<'image' | 'pdf'>('image');
   const [quality, setQuality] = useState(80);
   const [isProcessing, setIsProcessing] = useState(false);
+  const filesRef = useRef<CompressFile[]>([]);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
+    const currentFileCount = filesRef.current.length;
+    const remainingSlots = MAX_FILES - currentFileCount;
+    
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum of ${MAX_FILES} files allowed. Please remove some files first.`);
+      return;
+    }
+    
+    if (acceptedFiles.length > remainingSlots) {
+      toast.error(`You can only add ${remainingSlots} more file(s). Maximum of ${MAX_FILES} files allowed.`);
+    }
+
+    const filesToProcess = acceptedFiles.slice(0, remainingSlots);
+    const newCompressFiles: CompressFile[] = [];
+
+    for (const file of filesToProcess) {
       const isImage = file.type.startsWith('image/');
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
 
@@ -47,7 +69,7 @@ export default function CompressPage() {
         status: 'pending',
       };
 
-      setFiles((prev) => [...prev, compressFile]);
+      newCompressFiles.push(compressFile);
       
       // Auto-detect compression type from first file
       if (isImage) {
@@ -55,6 +77,19 @@ export default function CompressPage() {
       } else if (isPdf) {
         setCompressionType('pdf');
       }
+    }
+
+    // Add all valid files at once
+    if (newCompressFiles.length > 0) {
+      setFiles((prev) => {
+        const totalAfterAdd = prev.length + newCompressFiles.length;
+        if (totalAfterAdd > MAX_FILES) {
+          const allowed = MAX_FILES - prev.length;
+          toast.error(`Only ${allowed} file(s) were added. Maximum of ${MAX_FILES} files reached.`);
+          return [...prev, ...newCompressFiles.slice(0, allowed)];
+        }
+        return [...prev, ...newCompressFiles];
+      });
     }
   }, []);
 
@@ -64,6 +99,8 @@ export default function CompressPage() {
       'image/*': ['.png', '.jpg', '.jpeg', '.webp'],
       'application/pdf': ['.pdf'],
     },
+    multiple: true,
+    maxFiles: MAX_FILES,
   });
 
   const removeFile = (id: string) => {
@@ -162,30 +199,8 @@ export default function CompressPage() {
   const completedCount = files.filter(f => f.status === 'done').length;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              FileForge
-            </Link>
-            <nav className="flex gap-6">
-              <Link href="/convert" className="text-gray-600 dark:text-gray-300 hover:text-indigo-600">
-                Convert
-              </Link>
-              <Link href="/merge" className="text-gray-600 dark:text-gray-300 hover:text-indigo-600">
-                Merge PDFs
-              </Link>
-              <Link href="/split" className="text-gray-600 dark:text-gray-300 hover:text-indigo-600">
-                Split PDF
-              </Link>
-              <Link href="/compress" className="text-indigo-600 dark:text-indigo-400 font-semibold">
-                Compress
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-ink-50 dark:bg-ink-950">
+      <Header />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
@@ -238,7 +253,7 @@ export default function CompressPage() {
             {isDragActive ? 'Drop files here...' : `Drag & drop ${compressionType === 'image' ? 'images' : 'PDFs'} here`}
           </p>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            or click to select (max {MAX_FILE_SIZE_MB}MB per file)
+            or click to select (max {MAX_FILE_SIZE_MB}MB per file, up to {MAX_FILES} files)
           </p>
         </div>
 

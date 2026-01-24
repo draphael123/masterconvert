@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Link from 'next/link';
+import toast from 'react-hot-toast';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 interface ConvertedFile {
@@ -11,6 +12,8 @@ interface ConvertedFile {
   size: number;
 }
 
+const MAX_FILES = 50;
+
 export default function HeicConverterPage() {
   const [files, setFiles] = useState<File[]>([]);
   const [outputFormat, setOutputFormat] = useState<'jpg' | 'png'>('jpg');
@@ -18,13 +21,46 @@ export default function HeicConverterPage() {
   const [progress, setProgress] = useState(0);
   const [convertedFiles, setConvertedFiles] = useState<ConvertedFile[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const filesRef = useRef<File[]>([]);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
+    const currentFileCount = filesRef.current.length;
+    const remainingSlots = MAX_FILES - currentFileCount;
+    
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum of ${MAX_FILES} files allowed. Please remove some files first.`);
+      return;
+    }
+    
     const heicFiles = acceptedFiles.filter(
       file => file.name.toLowerCase().endsWith('.heic') || 
               file.name.toLowerCase().endsWith('.heif')
     );
-    setFiles(prev => [...prev, ...heicFiles]);
+    
+    if (heicFiles.length === 0) {
+      toast.error('No HEIC/HEIF files found');
+      return;
+    }
+    
+    if (heicFiles.length > remainingSlots) {
+      toast.error(`You can only add ${remainingSlots} more file(s). Maximum of ${MAX_FILES} files allowed.`);
+    }
+    
+    const filesToAdd = heicFiles.slice(0, remainingSlots);
+    setFiles(prev => {
+      const totalAfterAdd = prev.length + filesToAdd.length;
+      if (totalAfterAdd > MAX_FILES) {
+        const allowed = MAX_FILES - prev.length;
+        toast.error(`Only ${allowed} file(s) were added. Maximum of ${MAX_FILES} files reached.`);
+        return [...prev, ...filesToAdd.slice(0, allowed)];
+      }
+      return [...prev, ...filesToAdd];
+    });
     setError(null);
     setConvertedFiles([]);
   }, []);
@@ -36,6 +72,7 @@ export default function HeicConverterPage() {
       'image/heif': ['.heif'],
     },
     multiple: true,
+    maxFiles: MAX_FILES,
   });
 
   const removeFile = (index: number) => {
@@ -141,30 +178,13 @@ export default function HeicConverterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-white/10 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-white">
-              File<span className="text-purple-400">Forge</span>
-            </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/convert" className="text-gray-300 hover:text-white transition-colors">
-                All Conversions
-              </Link>
-              <Link href="/merge" className="text-gray-300 hover:text-white transition-colors">
-                Merge PDFs
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <Header />
 
       <main className="max-w-4xl mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-full text-purple-300 text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 rounded-full text-blue-300 text-sm mb-6">
             <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
             iPhone Photo Converter
           </div>
@@ -189,7 +209,7 @@ export default function HeicConverterPage() {
                 onClick={() => setOutputFormat('jpg')}
                 className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                   outputFormat === 'jpg'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white/5 text-gray-300 hover:bg-white/10'
                 }`}
               >
@@ -199,7 +219,7 @@ export default function HeicConverterPage() {
                 onClick={() => setOutputFormat('png')}
                 className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
                   outputFormat === 'png'
-                    ? 'bg-purple-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white/5 text-gray-300 hover:bg-white/10'
                 }`}
               >
@@ -213,20 +233,20 @@ export default function HeicConverterPage() {
             {...getRootProps()}
             className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all ${
               isDragActive
-                ? 'border-purple-400 bg-purple-500/10'
-                : 'border-white/20 hover:border-purple-400/50 hover:bg-white/5'
+                ? 'border-blue-400 bg-blue-500/10'
+                : 'border-white/20 hover:border-blue-400/50 hover:bg-white/5'
             }`}
           >
             <input {...getInputProps()} />
             <div className="text-6xl mb-4">📸</div>
             {isDragActive ? (
-              <p className="text-xl text-purple-300">Drop your HEIC files here...</p>
+              <p className="text-xl text-blue-300">Drop your HEIC files here...</p>
             ) : (
               <>
                 <p className="text-xl text-white mb-2">
                   Drag & drop HEIC/HEIF files here
                 </p>
-                <p className="text-gray-400">or click to select files</p>
+                <p className="text-gray-400">or click to select files (up to {MAX_FILES} files)</p>
               </>
             )}
           </div>
@@ -283,7 +303,7 @@ export default function HeicConverterPage() {
               </div>
               <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -305,7 +325,7 @@ export default function HeicConverterPage() {
               className={`w-full mt-6 py-4 rounded-xl font-semibold text-lg transition-all ${
                 converting
                   ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-500 hover:to-pink-500'
+                  : 'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400'
               }`}
             >
               {converting ? 'Converting...' : `Convert ${files.length} File${files.length > 1 ? 's' : ''} to ${outputFormat.toUpperCase()}`}
@@ -322,7 +342,7 @@ export default function HeicConverterPage() {
                 {convertedFiles.length > 1 && (
                   <button
                     onClick={downloadAll}
-                    className="text-sm text-purple-400 hover:text-purple-300"
+                    className="text-sm text-blue-400 hover:text-blue-300"
                   >
                     Download All
                   </button>
@@ -346,7 +366,7 @@ export default function HeicConverterPage() {
                     <a
                       href={file.url}
                       download={file.name}
-                      className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-medium transition-colors"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition-colors"
                     >
                       Download
                     </a>

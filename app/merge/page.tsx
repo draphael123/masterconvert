@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 interface PdfFile {
@@ -15,14 +15,36 @@ interface PdfFile {
 }
 
 const MAX_FILE_SIZE_MB = 200;
+const MAX_FILES = 50;
 
 export default function MergePage() {
   const [pdfFiles, setPdfFiles] = useState<PdfFile[]>([]);
   const [isMerging, setIsMerging] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const pdfFilesRef = useRef<PdfFile[]>([]);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    pdfFilesRef.current = pdfFiles;
+  }, [pdfFiles]);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
+    const currentFileCount = pdfFilesRef.current.length;
+    const remainingSlots = MAX_FILES - currentFileCount;
+    
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum of ${MAX_FILES} files allowed. Please remove some files first.`);
+      return;
+    }
+    
+    if (acceptedFiles.length > remainingSlots) {
+      toast.error(`You can only add ${remainingSlots} more file(s). Maximum of ${MAX_FILES} files allowed.`);
+    }
+
+    const filesToProcess = acceptedFiles.slice(0, remainingSlots);
+    const newPdfFiles: PdfFile[] = [];
+
+    for (const file of filesToProcess) {
       // Validate file type
       if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
         toast.error(`${file.name}: Not a PDF file`);
@@ -42,8 +64,24 @@ export default function MergePage() {
         size: file.size,
       };
 
-      setPdfFiles((prev) => [...prev, pdfFile]);
-      toast.success(`Added: ${file.name}`);
+      newPdfFiles.push(pdfFile);
+    }
+
+    // Add all valid files at once
+    if (newPdfFiles.length > 0) {
+      setPdfFiles((prev) => {
+        const totalAfterAdd = prev.length + newPdfFiles.length;
+        if (totalAfterAdd > MAX_FILES) {
+          const allowed = MAX_FILES - prev.length;
+          toast.error(`Only ${allowed} file(s) were added. Maximum of ${MAX_FILES} files reached.`);
+          return [...prev, ...newPdfFiles.slice(0, allowed)];
+        }
+        return [...prev, ...newPdfFiles];
+      });
+      
+      newPdfFiles.forEach((pdf) => {
+        toast.success(`Added: ${pdf.name}`);
+      });
     }
   }, []);
 
@@ -52,6 +90,8 @@ export default function MergePage() {
     accept: {
       'application/pdf': ['.pdf'],
     },
+    multiple: true,
+    maxFiles: MAX_FILES,
   });
 
   const removeFile = (id: string) => {
@@ -135,37 +175,8 @@ export default function MergePage() {
   const totalSize = pdfFiles.reduce((sum, f) => sum + f.size, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              FileForge
-            </Link>
-            <nav className="flex gap-6">
-              <Link
-                href="/convert"
-                className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                Convert
-              </Link>
-              <Link
-                href="/merge"
-                className="text-indigo-600 dark:text-indigo-400 font-semibold"
-              >
-                Merge PDFs
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                Privacy
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-ink-50 dark:bg-ink-950">
+      <Header />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
@@ -192,7 +203,7 @@ export default function MergePage() {
             {isDragActive ? 'Drop PDFs here...' : 'Drag & drop PDF files here'}
           </p>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            or click to select files (max {MAX_FILE_SIZE_MB}MB per file)
+            or click to select files (max {MAX_FILE_SIZE_MB}MB per file, up to {MAX_FILES} files)
           </p>
         </div>
 

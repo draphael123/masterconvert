@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -15,15 +15,37 @@ interface ImageFile {
 }
 
 const MAX_FILE_SIZE_MB = 50;
+const MAX_FILES = 50;
 
 export default function ImagesToPdfPage() {
   const [images, setImages] = useState<ImageFile[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [pageSize, setPageSize] = useState<'a4' | 'letter' | 'fit'>('a4');
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const imagesRef = useRef<ImageFile[]>([]);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    imagesRef.current = images;
+  }, [images]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
+    const currentImageCount = imagesRef.current.length;
+    const remainingSlots = MAX_FILES - currentImageCount;
+    
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum of ${MAX_FILES} files allowed. Please remove some files first.`);
+      return;
+    }
+    
+    if (acceptedFiles.length > remainingSlots) {
+      toast.error(`You can only add ${remainingSlots} more file(s). Maximum of ${MAX_FILES} files allowed.`);
+    }
+
+    const filesToProcess = acceptedFiles.slice(0, remainingSlots);
+    const newImageFiles: ImageFile[] = [];
+
+    for (const file of filesToProcess) {
       if (!file.type.startsWith('image/')) {
         toast.error(`${file.name}: Not an image file`);
         continue;
@@ -41,7 +63,20 @@ export default function ImagesToPdfPage() {
         preview: URL.createObjectURL(file),
       };
 
-      setImages((prev) => [...prev, imageFile]);
+      newImageFiles.push(imageFile);
+    }
+
+    // Add all valid files at once
+    if (newImageFiles.length > 0) {
+      setImages((prev) => {
+        const totalAfterAdd = prev.length + newImageFiles.length;
+        if (totalAfterAdd > MAX_FILES) {
+          const allowed = MAX_FILES - prev.length;
+          toast.error(`Only ${allowed} file(s) were added. Maximum of ${MAX_FILES} files reached.`);
+          return [...prev, ...newImageFiles.slice(0, allowed)];
+        }
+        return [...prev, ...newImageFiles];
+      });
     }
   }, []);
 
@@ -50,6 +85,8 @@ export default function ImagesToPdfPage() {
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp'],
     },
+    multiple: true,
+    maxFiles: MAX_FILES,
   });
 
   const removeImage = (id: string) => {
@@ -149,7 +186,7 @@ export default function ImagesToPdfPage() {
             {isDragActive ? 'Drop images here...' : 'Drag & drop images here'}
           </p>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            PNG, JPG, WebP, GIF, BMP (max {MAX_FILE_SIZE_MB}MB each)
+            PNG, JPG, WebP, GIF, BMP (max {MAX_FILE_SIZE_MB}MB each, up to {MAX_FILES} files)
           </p>
         </div>
 

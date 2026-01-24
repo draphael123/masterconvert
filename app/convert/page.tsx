@@ -1,22 +1,29 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
 import FileCard from '@/components/FileCard';
 import ProgressCard from '@/components/ProgressCard';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FileInfo, ConversionType, JobStatus, AdvancedOptions, ConversionHistoryItem } from '@/lib/types';
 import { validateFile } from '@/lib/validation';
 
 const MAX_FILE_SIZE_MB = 200;
+const MAX_FILES = 50;
 
 export default function ConvertPage() {
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [fileObjects, setFileObjects] = useState<Map<string, File>>(new Map());
   const [jobs, setJobs] = useState<Map<string, JobStatus>>(new Map());
   const [history, setHistory] = useState<ConversionHistoryItem[]>([]);
+  const filesRef = useRef<FileInfo[]>([]);
+  
+  // Keep ref in sync with state
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
 
   // Load history from localStorage
   useEffect(() => {
@@ -38,7 +45,23 @@ export default function ConvertPage() {
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
+    const currentFileCount = filesRef.current.length;
+    const remainingSlots = MAX_FILES - currentFileCount;
+    
+    if (remainingSlots <= 0) {
+      toast.error(`Maximum of ${MAX_FILES} files allowed. Please remove some files first.`);
+      return;
+    }
+    
+    if (acceptedFiles.length > remainingSlots) {
+      toast.error(`You can only add ${remainingSlots} more file(s). Maximum of ${MAX_FILES} files allowed.`);
+    }
+
+    const filesToProcess = acceptedFiles.slice(0, remainingSlots);
+    const newFileInfos: FileInfo[] = [];
+    const newFileObjects = new Map<string, File>();
+
+    for (const file of filesToProcess) {
       const validation = await validateFile(file, MAX_FILE_SIZE_MB);
       if (!validation.valid) {
         toast.error(`${file.name}: ${validation.error}`);
@@ -53,10 +76,27 @@ export default function ConvertPage() {
         type: file.type,
       };
 
-      setFiles((prev) => [...prev, fileInfo]);
+      newFileInfos.push(fileInfo);
+      newFileObjects.set(fileId, file);
+    }
+
+    // Add all valid files at once
+    if (newFileInfos.length > 0) {
+      setFiles((prev) => {
+        const totalAfterAdd = prev.length + newFileInfos.length;
+        if (totalAfterAdd > MAX_FILES) {
+          const allowed = MAX_FILES - prev.length;
+          toast.error(`Only ${allowed} file(s) were added. Maximum of ${MAX_FILES} files reached.`);
+          return [...prev, ...newFileInfos.slice(0, allowed)];
+        }
+        return [...prev, ...newFileInfos];
+      });
+
       setFileObjects((prev) => {
         const newMap = new Map(prev);
-        newMap.set(fileId, file);
+        newFileObjects.forEach((file, fileId) => {
+          newMap.set(fileId, file);
+        });
         return newMap;
       });
     }
@@ -65,6 +105,8 @@ export default function ConvertPage() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxSize: MAX_FILE_SIZE_MB * 1024 * 1024,
+    multiple: true,
+    maxFiles: MAX_FILES,
   });
 
   const removeFile = (id: string) => {
@@ -233,36 +275,8 @@ export default function ConvertPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <nav className="border-b border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-gray-900 dark:text-white">
-              FileForge
-            </Link>
-            <div className="flex gap-4">
-              <Link
-                href="/convert"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-semibold"
-              >
-                Convert
-              </Link>
-              <Link
-                href="/merge"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                Merge PDFs
-              </Link>
-              <Link
-                href="/privacy"
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              >
-                Privacy
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-ink-50 dark:bg-ink-950">
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
@@ -316,7 +330,7 @@ export default function ConvertPage() {
                 {isDragActive ? 'Drop files here' : 'Drag & drop files here'}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                or click to select files (max {MAX_FILE_SIZE_MB}MB per file)
+                or click to select files (max {MAX_FILE_SIZE_MB}MB per file, up to {MAX_FILES} files)
               </p>
             </div>
           </div>
