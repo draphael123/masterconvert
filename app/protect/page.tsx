@@ -25,7 +25,6 @@ export default function ProtectPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const pdfFilesRef = useRef<PdfFile[]>([]);
-  const folderInputRef = useRef<HTMLInputElement>(null);
   
   // Keep ref in sync with state
   useEffect(() => {
@@ -92,29 +91,6 @@ export default function ProtectPage() {
     multiple: true,
     maxFiles: MAX_FILES,
   });
-
-  const handleFolderUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    // Filter for PDFs only
-    const pdfFiles = Array.from(files).filter(
-      file => file.name.toLowerCase().endsWith('.pdf') || file.type === 'application/pdf'
-    );
-
-    if (pdfFiles.length === 0) {
-      toast.error('No PDF files found in the selected folder');
-      return;
-    }
-
-    // Process the PDFs through the same logic as onDrop
-    onDrop(pdfFiles);
-    
-    // Reset the input so the same folder can be selected again
-    if (folderInputRef.current) {
-      folderInputRef.current.value = '';
-    }
-  }, [onDrop]);
 
   const protectPdf = async () => {
     if (pdfFiles.length === 0) {
@@ -266,29 +242,6 @@ export default function ProtectPage() {
           </p>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
             or click to select files (max {MAX_FILE_SIZE_MB}MB per file, up to {MAX_FILES} files)
-          </p>
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                folderInputRef.current?.click();
-              }}
-              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm font-medium"
-            >
-              📁 Upload Folder
-            </button>
-            <input
-              type="file"
-              ref={folderInputRef}
-              onChange={handleFolderUpload}
-              {...({ webkitdirectory: '', directory: '', multiple: true } as any)}
-              accept=".pdf,application/pdf"
-              className="hidden"
-            />
-          </div>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-            Folder upload will automatically detect all PDFs in the selected folder
           </p>
         </div>
 

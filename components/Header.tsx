@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import ThemeToggle from './ThemeToggle';
+import SearchBar from './SearchBar';
+import { getFavorites } from '@/lib/favorites';
 
 const toolCategories = {
   pdf: {
@@ -25,13 +27,13 @@ const toolCategories = {
     href: '/image-tools',
     items: [
       { href: '/resize', label: 'Resize Image', icon: '📐', desc: 'Change dimensions' },
-      { href: '/compress', label: 'Compress', icon: '🗜️', desc: 'Reduce file size' },
+      { href: '/tools/background-remover', label: 'Remove BG', icon: '🎭', desc: 'Transparent background' },
+      { href: '/tools/favicon-generator', label: 'Favicon', icon: '⭐', desc: 'All icon sizes' },
+      { href: '/tools/color-extractor', label: 'Color Palette', icon: '🎨', desc: 'Extract colors' },
+      { href: '/tools/metadata-stripper', label: 'Strip Metadata', icon: '🔒', desc: 'Privacy tool' },
       { href: '/heic', label: 'HEIC Convert', icon: '📸', desc: 'iPhone photos' },
       { href: '/tools/image-crop', label: 'Crop Image', icon: '✂️', desc: 'Trim images' },
-      { href: '/tools/background-remover', label: 'Remove BG', icon: '🎭', desc: 'Transparent background' },
       { href: '/logo-resize', label: 'Logo Resizer', icon: '🎨', desc: 'All social sizes' },
-      { href: '/png-to-jpg', label: 'PNG → JPG', icon: '🔄', desc: 'Convert format' },
-      { href: '/jpg-to-png', label: 'JPG → PNG', icon: '🔄', desc: 'Convert format' },
     ],
   },
   dev: {
@@ -39,21 +41,22 @@ const toolCategories = {
     href: '/dev-tools',
     items: [
       { href: '/tools/json-formatter', label: 'JSON Formatter', icon: '{ }', desc: 'Format & validate' },
-      { href: '/tools/base64', label: 'Base64', icon: '🔤', desc: 'Encode/decode' },
-      { href: '/tools/url-encoder', label: 'URL Encoder', icon: '🔗', desc: 'Encode URLs' },
-      { href: '/tools/uuid', label: 'UUID Generator', icon: '🆔', desc: 'Generate UUIDs' },
-      { href: '/tools/hash', label: 'Hash Generator', icon: '#️⃣', desc: 'MD5, SHA, etc.' },
+      { href: '/tools/jwt-decoder', label: 'JWT Decoder', icon: '🔐', desc: 'Decode tokens' },
+      { href: '/tools/cron-builder', label: 'Cron Builder', icon: '⏱️', desc: 'Visual cron editor' },
+      { href: '/tools/color-converter', label: 'Color Converter', icon: '🎨', desc: 'HEX, RGB, HSL' },
+      { href: '/tools/minifier', label: 'Code Minifier', icon: '🗜️', desc: 'JS, CSS, HTML' },
+      { href: '/tools/password-generator', label: 'Password Gen', icon: '🔑', desc: 'Secure passwords' },
+      { href: '/tools/fake-data', label: 'Fake Data', icon: '🎲', desc: 'Test data' },
       { href: '/tools/regex', label: 'Regex Tester', icon: '🔍', desc: 'Test patterns' },
-      { href: '/tools/diff', label: 'Diff Checker', icon: '📊', desc: 'Compare text' },
-      { href: '/tools/timestamp', label: 'Timestamp', icon: '⏰', desc: 'Unix converter' },
     ],
   },
 };
 
 const mainNavItems = [
+  { href: '/', label: 'Home', desc: 'Back to home' },
   { href: '/convert', label: 'Convert', desc: '50+ format conversions' },
-  { href: '/content-tools', label: 'Content Tools', desc: 'Social media & marketing', highlight: true },
-  { href: '/qr-code', label: 'QR Code', desc: 'Generate QR codes' },
+  { href: '/content-tools', label: 'Content', desc: 'Marketing & social', highlight: true },
+  { href: '/all-tools', label: 'All Tools', desc: '80+ tools' },
 ];
 
 function DropdownMenu({ category, isOpen, onClose }: { 
@@ -117,13 +120,27 @@ export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+
+  // Load favorites count
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setFavoritesCount(getFavorites().length);
+      // Listen for storage changes (when favorites are updated in other tabs)
+      const handleStorageChange = () => {
+        setFavoritesCount(getFavorites().length);
+      };
+      window.addEventListener('storage', handleStorageChange);
+      return () => window.removeEventListener('storage', handleStorageChange);
+    }
+  }, []);
 
   const isActiveCategory = (category: typeof toolCategories.pdf) => {
     return category.items.some(item => pathname === item.href || pathname?.startsWith(item.href + '/'));
   };
 
   return (
-    <header className="bg-ink-50 dark:bg-ink-950 border-b border-ink-200 dark:border-ink-800 sticky top-0 z-50 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
+    <header className="bg-white/80 dark:bg-ink-950/80 border-b border-ink-200/50 dark:border-ink-800/50 sticky top-0 z-50 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2 group">
@@ -178,13 +195,27 @@ export default function Header() {
               );
             })}
             
-            <div className="ml-3 pl-3 border-l border-ink-200 dark:border-ink-700">
+            <div className="ml-3 pl-3 border-l border-ink-200 dark:border-ink-700 flex items-center gap-3">
+              <Link
+                href="/favorites"
+                className="relative px-3 py-2 rounded-lg text-sm font-medium text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-800 hover:text-ink-900 dark:hover:text-ink-100 transition-colors"
+                title="My Favorites"
+              >
+                ⭐ Favorites
+                {favoritesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {favoritesCount}
+                  </span>
+                )}
+              </Link>
+              <SearchBar />
               <ThemeToggle />
             </div>
           </nav>
 
           {/* Mobile Menu Button */}
           <div className="flex lg:hidden items-center gap-2">
+            <SearchBar />
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -205,7 +236,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden pb-4 border-t border-ink-200 dark:border-ink-800 pt-4 mt-2 max-h-[70vh] overflow-y-auto">
+          <nav className="lg:hidden pb-4 border-t border-ink-200/50 dark:border-ink-800/50 pt-4 mt-2 max-h-[70vh] overflow-y-auto">
             <div className="space-y-4">
               {/* Categories */}
               {Object.entries(toolCategories).map(([key, category]) => (
@@ -237,6 +268,18 @@ export default function Header() {
               ))}
 
               <div className="border-t border-ink-200 dark:border-ink-800 pt-4">
+                <Link
+                  href="/favorites"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3 py-3 rounded-lg text-ink-900 dark:text-ink-100 font-medium hover:bg-ink-100 dark:hover:bg-ink-800"
+                >
+                  <span>⭐ Favorites</span>
+                  {favoritesCount > 0 && (
+                    <span className="text-xs bg-accent-500 text-white px-2 py-0.5 rounded-full">
+                      {favoritesCount}
+                    </span>
+                  )}
+                </Link>
                 {mainNavItems.map((item) => (
                   <Link
                     key={item.href}
